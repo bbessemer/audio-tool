@@ -1,0 +1,3 @@
+For information on installing Slice, go to
+http://glassblade-games.com/slice/install-guide.html
+and follow the five steps listed.
