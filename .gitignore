@@ -1,2 +1,5 @@
 *.cbp
 *.o
+*.exe
+keybinds.txt
+settings.txt
