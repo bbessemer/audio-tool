@@ -1,17 +1,27 @@
 # depslib dependency file v1.0
 1446915542 source:c:\users\bmb06\code\tsa\audio-tool\mixer-backend\mixer-backend.cpp
 
-1446919304 source:c:\users\bmb06\code\tsa\audio-tool\loop.cpp
+1447621821 source:c:\users\bmb06\code\tsa\audio-tool\loop.cpp
 	<slice.h>
 	"interface.h"
-	"mixer/mixer.h"
+	"music.h"
 
-1446919229 c:\users\bmb06\code\tsa\audio-tool\interface.h
+1447621757 c:\users\bmb06\code\tsa\audio-tool\interface.h
 
 1446915542 c:\users\bmb06\code\tsa\audio-tool\mixer\mixer.h
 
-1446917248 source:c:\users\bmb06\code\tsa\audio-tool\main.cpp
+1446926933 source:c:\users\bmb06\code\tsa\audio-tool\main.cpp
 	<slice.h>
 	"interface.h"
 	"mixer/mixer.h"
+
+1447611396 source:c:\users\bmb06\code\tsa\audio-tool\notes.cpp
+	<slice.h>
+	"music.h"
+	"interface.h"
+
+1447621846 c:\users\bmb06\code\tsa\audio-tool\music.h
+	<math.h>
+
+1447611599 c:\users\bmb06\code\tsa\audio-tool\util.h
 

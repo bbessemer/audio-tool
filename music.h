@@ -5,28 +5,28 @@
 
 #define Cb  -1
 #define C   0
-#define C#  1
+#define Cs  1
 #define Cx  2
 #define Db  1
 #define D   2
-#define D#  3
+#define Ds  3
 #define Ebb 2
 #define Eb  3
 #define E   4
 #define Fb  4
 #define F   5
-#define F#  6
+#define Fs  6
 #define Fx  7
 #define Gb  6
 #define G   7
-#define G#  8
+#define Gs  8
 #define Ab  8
 #define A   9
-#define A#  10
+#define As  10
 #define Bbb 9
 #define Bb  10
 #define B   11
-#define B#  12
+#define Bs  12
 
 #define NOTE(midi) (midi % 12)
 #define OCTAVE(midi) ((int)midi/12 - 1)
@@ -47,13 +47,13 @@
 #define KEY_A    3
 #define KEY_E    4
 #define KEY_B    5
-#define KEY_F#   6
-#define KEY_C#   7
-#define KEY_G#   8
-#define KEY_D#   9
-#define KEY_A#  10
-#define KEY_E#  11
-#define KEY_B#  12
+#define KEY_Fs   6
+#define KEY_Cs   7
+#define KEY_Gs   8
+#define KEY_Ds   9
+#define KEY_As  10
+#define KEY_Es  11
+#define KEY_Bs  12
 
 #define MODE_MAJOR       0
 #define MODE_DORIAN     -2
@@ -83,9 +83,30 @@
 #define CF_m7 -2
 #define CF_M7  5
 
-float pitch (int m, float bend = 0.0, float tuning = 440.0)
+#define WHOLE   384
+#define HALF    192
+#define QUARTER 96
+#define EIGHTH  48
+#define _16TH   24
+#define _32ND   12
+
+struct Note
 {
-  return tuning*pow(2.0, (m + bend/100.0 - MIDI(A, 4))/12.0);
-}
+  slBox* box;
+  int pitch;
+  int rel_pitch;
+  int start;
+  int duration;
+};
+
+float pitch (int m, float bend = 0.0, float tuning = 440.0);
+void note_click ();
+void note_unclick ();
+void notes_move (Note*, Note*);
+
+Note* getNote (int i);
+slBU getNotesCount ();
+
+Note* createNote (int rel_pitch, int start, int duration);
 
 #endif // MUSIC_H
