@@ -13,7 +13,7 @@ struct Note
 };
 Note* SpawnNote ();
 void RepositionNotes ();
-void DrawGrid ();
+void DrawGrid (SDL_Window*, SDL_Renderer*);
 slBU GetMeasureCount ();
 void InsertMeasure (slBU where);
 void RemoveMeasure (slBU where);

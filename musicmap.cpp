@@ -1,15 +1,28 @@
-#define BEATS_PER_MEASURE 16
-#define CHANNELS 8
-#define ROLL_HEIGHT 0.5
+#define NOTE(midi) (midi % 12)
+#define OCTAVE(midi) ((int)midi/12 - 1)
+#define MIDI(note, octave) ((octave+1)*12+note)
+
+#define WHOLE   384
+#define HALF    192
+#define QUARTER 96
+#define EIGHTH  48
+#define _16TH   24
+#define _32ND   12
+
+#define CHANNELS 7
+#define ROLL_HEIGHT 0.3
 #define ROLL_WIDTH 0.5
 #define GRID_COLOR {191,191,191,255}
 #define MEASURE_SEPARATOR_COLOR {255,0,255,255}
-#define BEATS_PER_MINIMEASURE 4
 #define MINIMEASURE_SEPARATOR_COLOR {223,223,0,255}
 
 /** -------- **/
 
+#include <stdlib.h>
 #include "musicmap.h"
+int BEATS_PER_MEASURE = 8;
+int BEATS_PER_MINIMEASURE = 2;
+int BEAT_LENGTH = QUARTER;
 slScalar CHANNEL_HEIGHT = ROLL_HEIGHT * (1. / CHANNELS);
 slScalar BEAT_WIDTH = ROLL_WIDTH * (1. / BEATS_PER_MEASURE);
 slScalar ROLL_TOP = (1 - ROLL_HEIGHT) / 2.;
@@ -17,7 +30,7 @@ slBU SongPosition = 0;
 #define GetRollOffset() (SongPosition * BEAT_WIDTH)
 #define GetRollLeft() (((1 - ROLL_WIDTH) / 2.) - GetRollOffset())
 slBU MeasureCount = 0;
-void DrawGrid ()
+void DrawGrid (SDL_Window* window = NULL, SDL_Renderer* renderer = NULL)
 {
 	printf("drawstage: %dx%dx%d\n",CHANNELS,BEATS_PER_MEASURE,MeasureCount);
 	slScalar roll_left = GetRollLeft();
@@ -43,12 +56,12 @@ Note** Notes = NULL;
 slBU NoteCount = 0;
 Note* SpawnNote ()
 {
-	Note* out = malloc(sizeof(Note));
+	Note* out = (Note *) malloc(sizeof(Note));
 	out->box = slCreateBox();
 	out->box->w = BEAT_WIDTH;
 	out->box->h = CHANNEL_HEIGHT;
 	out->box->backcolor = {rand() % 256,rand() % 256,rand() % 256,255};
-	slAddItemToList(&Notes,&NoteCount,out);
+	slAddItemToList((void ***)&Notes, (Uint64 *)&NoteCount, (void *)out);
 	return out;
 };
 void RepositionNotes ()
@@ -63,7 +76,7 @@ void RepositionNotes ()
 };
 void DespawnNote (Note* todespawn)
 {
-	slRemoveItemFromList(&Notes,&NoteCount,todespawn);
+	slRemoveItemFromList((void ***)&Notes,&NoteCount,todespawn);
 	free(todespawn);
 };
 Note* GrabbedNote = NULL;
