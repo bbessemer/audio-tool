@@ -13,15 +13,25 @@ void RemoveMeasureFromEnd ()
 	RemoveMeasure(GetMeasureCount() - 1);
 };
 bool SongPlaying = false;
-bool LoopSong = true;
+bool LoopSong = false;
+void PlayPauseToggle ();
+bool ReachedEnd = false;
 void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 {
-	if (GetSongPosition() > GetSongLength())
-	{
-		if (LoopSong) SetSongPosition(0);
-		else SongPlaying = false;
-	};
 	slBU cur;
+	if (SongPlaying)
+	{
+		if (GetSongPosition() > GetSongLength())
+		{
+			if (LoopSong) SetSongPosition(0);
+			else
+			{
+				PlayPauseToggle();
+				SetSongPosition(GetSongLength());
+				ReachedEnd = true;
+			};
+		};
+	};
 	if (SongPlaying)
 	{
 		for (cur = 0; cur < samples; cur++)
@@ -42,9 +52,22 @@ void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 		if (stereo) for (cur = 0; cur < samples; cur++) *(buf + samples + cur) = 0;
 	};
 };
+slBox* PlayPauseButton;
+#define PLAY_BUTTON_IMGPATH "play-button.png"
+#define PAUSE_BUTTON_IMGPATH "pause-button.png"
+void PlayPauseToggle ()
+{
+	if (!LoopSong && ReachedEnd) SetSongPosition(0);
+	else ReachedEnd = false;
+	SongPlaying = !SongPlaying;
+	PlayPauseButton->texref = slLoadTexture(SongPlaying ? PAUSE_BUTTON_IMGPATH : PLAY_BUTTON_IMGPATH);
+};
 int main ()
 {
 	slInit();
+	PlayPauseButton = slCreateBox(slLoadTexture(PLAY_BUTTON_IMGPATH));
+	slSetBoxDims(PlayPauseButton,0.42,0.72,0.06,0.06);
+	PlayPauseButton->onclick = PlayPauseToggle;
 	slSetCustomDrawStage_Middle(DrawGrid);
 	slOpenAudio();
 	slSetCustomMixStage(Mix);

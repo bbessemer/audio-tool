@@ -173,9 +173,11 @@ slScalar GetSongLength ()
 {
 	return MeasureCount * BEATS_PER_MEASURE;
 };
+#define TEST_HERTZ 440 /* A */
 float GetSample (slScalar persample)
 {
 	slScalar sample = 0;
+	sample += sin((SongPosition * (TEST_HERTZ / (BeatsPerMinute / 60))) * M_PI) * 0.5;
 	// Get the sample.
 	SongPosition += persample * (BeatsPerMinute / 60) * (BEATS_PER_MINIMEASURE);
 	return sample;
