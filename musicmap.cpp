@@ -16,17 +16,21 @@ slBU SongPosition = 0;
 slBU MeasureCount = 0;
 void DrawGrid ()
 {
+	slSetDrawColor({255,255,255,255});
+	printf("drawstage: %dx%dx%d\n",CHANNELS,BEATS_PER_MEASURE,MeasureCount);
 	slScalar roll_left = GetRollLeft();
 	slScalar roll_right = roll_left + (MeasureCount * BEATS_PER_MEASURE * BEAT_WIDTH);
 	slScalar roll_bottom = ROLL_TOP + (CHANNELS * CHANNEL_HEIGHT);
 	for (slBU meas = 0; meas < MeasureCount; meas++) for (slBU beat = 0; beat < BEATS_PER_MEASURE; beat++)
 	{
 		slScalar x = roll_left + (((meas * BEATS_PER_MEASURE) + beat) * BEAT_WIDTH);
+		printf("%f ",x);
 		slDrawScreenLine(x,ROLL_TOP,x,roll_bottom);
 	};
 	for (slBU chan = 0; chan < CHANNELS; chan++)
 	{
 		slScalar y = ROLL_TOP + (chan * CHANNEL_HEIGHT);
+		printf("%f ",y);
 		slDrawScreenLine(roll_left,y,roll_right,y);
 	};
 };
