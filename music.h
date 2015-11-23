@@ -102,7 +102,6 @@ struct Note
 float pitch (int m, float bend = 0.0, float tuning = 440.0);
 void note_click ();
 void note_unclick ();
-void notes_move (Note*, Note*);
 
 Note* getNote (int i);
 slBU getNotesCount ();

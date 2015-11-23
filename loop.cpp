@@ -47,20 +47,18 @@ void grid_box_click (slBox* self)
 
 SDL_Color get_note_color (int relative)
 {
-  SDL_Color ret;
   switch (relative)
   {
-    case 0: ret = RED; break;
-    case 1: ret = ORANGE; break;
-    case 2: ret = YELLOW; break;
-    case 3: ret = GREEN; break;
-    case 4: ret = BLUE; break;
-    case 5: ret = PURPLE; break;
-    case 6: ret = MAGENTA; break;
-    default: ret = WHITE;
-  }
-  return ret;
-}
+    case 0: return RED;
+    case 1: return ORANGE;
+    case 2: return YELLOW;
+    case 3: return GREEN;
+    case 4: return BLUE;
+    case 5: return PURPLE;
+    case 6: return MAGENTA;
+    default: return WHITE;
+  };
+};
 
 void note_click ()
 {
@@ -101,7 +99,7 @@ void find_gridpos (slScalar x, slScalar y, int* i, int* j)
   *i = (int)(y/BEAT_HEIGHT);
 }
 
-int ui_init ()
+void ui_init ()
 {
   int i, j;
   for (i = 0; i < (int)1/BEAT_HEIGHT; i++)
@@ -121,12 +119,60 @@ int ui_init ()
       slAddItemToList((void ***)(&gridBoxes), &gridBoxCount, grid_box);
     }
   }
-  return 0;
+  FakeGrabbedBox = slCreateBox();
+  FakeGrabbedBox->w = NOTE_WIDTH;
+  FakeGrabbedBox->h = BEAT_HEIGHT;
 }
+void ui_quit ()
+{
+	// Clear out the list of GridBox objects.
+	while (gridBoxCount)
+	{
+		GridBox* item = *gridBoxes;
+		slRemoveItemFromList(&gridBoxes,&gridBoxCount,item);
+		slDestroyBox(item->box);
+		free(item);
+	};
+};
+
+slBox* FakeNoteBox;
+Note* GrabbedNote = NULL;
+GridBox* GetGridBoxAtPoint (slScalar x, slScalar y)
+{
+	for (slBU cur = 0; cur < gridBoxCount; cur++)
+	{
+		GridBox* gb = *(gridBoxes + cur);
+		if (slPointOnBox(gb->box,mousex,mousey)) return gb;
+	};
+	return NULL;
+};
+void GrabNote ()
+{
+	slScalar mousex,mousey;
+	slGetMouse(&mousex,&mousey);
+	GrabbedNote = GetGridBoxAtPoint(mousex,mousey);
+};
+void UnGrabBox ()
+{
+	slScalar mousex,mousey;
+	slGetMouse(&mousex,&mousey);
+	GridBox* copyto = GetGridBoxAtPoint(mousex,mousey);
+	if (copyto)
+	{
+
+
+	};
+	GrabbedNote = NULL;
+};
 
 bool tick ()
 {
-  notes_move(beingMoved, beingStretched);
+	if (GrabbedGridBox)
+	{
+		FakeGrabbedBox->visible = true;
+		slGetMouse(&(FakeGrabbedBox->x),&(FakeGrabbedBox->y));
+	}
+	else FakeGrabbedBox->visible = false;
   slCycle();
   return !slGetExitReq();
 }

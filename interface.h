@@ -25,7 +25,7 @@ struct GridBox
   int i, j;
 };
 
-int ui_init ();
+void ui_init ();
 bool tick ();
 void find_coords(int, int, slScalar*, slScalar*);
 void find_gridpos(slScalar, slScalar, int*, int*);

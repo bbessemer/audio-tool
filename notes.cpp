@@ -34,14 +34,6 @@ float pitch (int m, float bend, float tuning)
   return tuning*pow(2.0, (m + bend/100.0 - MIDI(A, 4))/12.0);
 }
 
-void notes_move (Note* beingMoved, Note* beingStretched, slScalar mouse_offx, slScalar mouse_offy)
-{
-  if (beingMoved)
-  {
-
-  }
-}
-
 Note* createNote (int rel_pitch, int start_beats, int beats)
 {
   Note* created = (Note *)malloc(sizeof(Note));
