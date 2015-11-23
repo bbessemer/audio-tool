@@ -14,3 +14,8 @@ struct Note
 Note* SpawnNote ();
 void RepositionNotes ();
 void DrawGrid ();
+slBU GetMeasureCount ();
+void InsertMeasure (slBU where);
+void GrabNote ();
+void ReleaseNote ();
+void UpdateGrabbedNote ();

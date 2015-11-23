@@ -38,6 +38,7 @@ Note* SpawnNote ()
 	out->box = slCreateBox();
 	out->box->w = BEAT_WIDTH;
 	out->box->h = CHANNEL_HEIGHT;
+	out->box->backcolor = {rand() % 256,rand() % 256,rand() % 256,255};
 	slAddItemToList(&Notes,&NoteCount,out);
 	return out;
 };
@@ -50,4 +51,65 @@ void RepositionNotes ()
 		note->box->x = roll_left + (note->start * BEAT_WIDTH);
 		note->box->y = ROLL_TOP + (note->channel * CHANNEL_HEIGHT);
 	};
+};
+Note* GrabbedNote = NULL;
+void GrabNote ()
+{
+	slScalar mousex,mousey;
+	slGetMouse(&mousex,&mousey);
+	for (slBU cur = 0; cur < NoteCount; cur++)
+	{
+		Note* note = *(Notes + cur);
+		if (slPointOnBox(note->box,mousex,mousey))
+		{
+			GrabbedNote = note;
+			break;
+		};
+	};
+};
+void ReleaseNote ()
+{
+	if (GrabbedNote)
+	{
+		slScalar mousex,mousey;
+		slGetMouse(&mousex,&mousey);
+		slScalar channel = ((mousey - ROLL_TOP) / ROLL_HEIGHT) * CHANNELS;
+		slScalar beat = ((mousex - GetRollLeft()) / ROLL_WIDTH) * BEATS_PER_MEASURE;
+		if (channel < 0 || beat < 0 || channel >= CHANNELS || beat >= BEATS_PER_MEASURE * MeasureCount)
+		{
+			// Remove the note. It's been dragged into the margins.
+			slRemoveItemFromList(&Notes,&NoteCount,GrabbedNote);
+			free(GrabbedNote);
+		}
+		else
+		{
+			// The note has been dragged into a valid grid space.
+			GrabbedNote->channel = channel;
+			GrabbedNote->start = beat;
+		};
+		// Either remove the note or
+		// set its start and channel.
+		GrabbedNote = NULL;
+	};
+};
+void UpdateGrabbedNote ()
+{
+	if (GrabbedNote) slGetMouse(&(GrabbedNote->box->x),&(GrabbedNote->box->y));
+};
+slBU GetMeasureCount ()
+{
+	return MeasureCount;
+};
+void InsertMeasure (slBU where)
+{
+	if (where < MeasureCount)
+	{
+		// We need to reposition the notes after the insertion point.
+		for (slBU cur = 0; cur < NoteCount; cur++)
+		{
+			Note* item = *(Notes + cur);
+			if (item->start > where * BEATS_PER_MEASURE) item->start += BEATS_PER_MEASURE;
+		};
+	};
+	MeasureCount++;
 };
