@@ -3,6 +3,7 @@
 //#include "interface.h"
 //#include "mixer/mixer.h"
 #include "musicmap.h"
+
 void AddMeasureAtEnd ()
 {
 	InsertMeasure(GetMeasureCount);
