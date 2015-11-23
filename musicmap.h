@@ -20,3 +20,4 @@ void RemoveMeasure (slBU where);
 void GrabNote ();
 void ReleaseNote ();
 void UpdateGrabbedNote ();
+float GetSample (slScalar persample);
