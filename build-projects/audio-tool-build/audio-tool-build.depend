@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1448305152 source:c:\collaboratives\audio-tool\main.cpp
+	<slice.h>
+	"musicmap.h"
+
+1448290805 c:\collaboratives\audio-tool\musicmap.h
+	<slice.h>
+

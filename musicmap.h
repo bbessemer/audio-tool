@@ -16,6 +16,7 @@ void RepositionNotes ();
 void DrawGrid ();
 slBU GetMeasureCount ();
 void InsertMeasure (slBU where);
+void RemoveMeasure (slBU where);
 void GrabNote ();
 void ReleaseNote ();
 void UpdateGrabbedNote ();

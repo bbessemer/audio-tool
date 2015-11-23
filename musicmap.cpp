@@ -2,7 +2,10 @@
 #define CHANNELS 8
 #define ROLL_HEIGHT 0.5
 #define ROLL_WIDTH 0.5
-#define GRID_COLOR {255,255,255,255}
+#define GRID_COLOR {191,191,191,255}
+#define MEASURE_SEPARATOR_COLOR {255,0,255,255}
+#define BEATS_PER_MINIMEASURE 4
+#define MINIMEASURE_SEPARATOR_COLOR {223,223,0,255}
 
 /** -------- **/
 
@@ -16,21 +19,23 @@ slBU SongPosition = 0;
 slBU MeasureCount = 0;
 void DrawGrid ()
 {
-	slSetDrawColor({255,255,255,255});
 	printf("drawstage: %dx%dx%d\n",CHANNELS,BEATS_PER_MEASURE,MeasureCount);
 	slScalar roll_left = GetRollLeft();
 	slScalar roll_right = roll_left + (MeasureCount * BEATS_PER_MEASURE * BEAT_WIDTH);
 	slScalar roll_bottom = ROLL_TOP + (CHANNELS * CHANNEL_HEIGHT);
-	for (slBU meas = 0; meas < MeasureCount; meas++) for (slBU beat = 0; beat < BEATS_PER_MEASURE; beat++)
+	slBU beatcount = MeasureCount * BEATS_PER_MEASURE;
+	for (slBU beat = 0; beat <= beatcount; beat++)
 	{
-		slScalar x = roll_left + (((meas * BEATS_PER_MEASURE) + beat) * BEAT_WIDTH);
-		printf("%f ",x);
+		slScalar x = roll_left + (beat * BEAT_WIDTH);
+		if (beat % BEATS_PER_MINIMEASURE) slSetDrawColor(GRID_COLOR);
+		else if (beat % BEATS_PER_MEASURE) slSetDrawColor(MINIMEASURE_SEPARATOR_COLOR);
+		else slSetDrawColor(MEASURE_SEPARATOR_COLOR);
 		slDrawScreenLine(x,ROLL_TOP,x,roll_bottom);
 	};
-	for (slBU chan = 0; chan < CHANNELS; chan++)
+	slSetDrawColor(GRID_COLOR);
+	for (slBU chan = 0; chan <= CHANNELS; chan++)
 	{
 		slScalar y = ROLL_TOP + (chan * CHANNEL_HEIGHT);
-		printf("%f ",y);
 		slDrawScreenLine(roll_left,y,roll_right,y);
 	};
 };
@@ -55,6 +60,11 @@ void RepositionNotes ()
 		note->box->x = roll_left + (note->start * BEAT_WIDTH);
 		note->box->y = ROLL_TOP + (note->channel * CHANNEL_HEIGHT);
 	};
+};
+void DespawnNote (Note* todespawn)
+{
+	slRemoveItemFromList(&Notes,&NoteCount,todespawn);
+	free(todespawn);
 };
 Note* GrabbedNote = NULL;
 void GrabNote ()
@@ -82,8 +92,7 @@ void ReleaseNote ()
 		if (channel < 0 || beat < 0 || channel >= CHANNELS || beat >= BEATS_PER_MEASURE * MeasureCount)
 		{
 			// Remove the note. It's been dragged into the margins.
-			slRemoveItemFromList(&Notes,&NoteCount,GrabbedNote);
-			free(GrabbedNote);
+			DespawnNote(GrabbedNote);
 		}
 		else
 		{
@@ -116,4 +125,26 @@ void InsertMeasure (slBU where)
 		};
 	};
 	MeasureCount++;
+};
+void RemoveMeasure (slBU where)
+{
+	if (MeasureCount)
+	{
+		for (slBU cur = 0; cur < NoteCount; cur++)
+		{
+			Note* item = *(Notes + cur);
+			if (item->start / BEATS_PER_MEASURE == where)
+			{
+				// Clear out the notes that were inside this measure.
+				DespawnNote(item);
+				cur--; // The list has shrunk due to despawning this item.
+			}
+			else if (item->start > where * BEATS_PER_MEASURE)\
+			{
+				// Reposition notes after this measure.
+				item->start -= BEATS_PER_MEASURE;
+			};
+		};
+		MeasureCount--;
+	};
 };

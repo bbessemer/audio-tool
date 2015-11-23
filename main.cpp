@@ -4,9 +4,13 @@
 //#include "mixer/mixer.h"
 #include "musicmap.h"
 
-void AddMeasureAtEnd ()
+void InsertMeasureAtEnd ()
 {
-	InsertMeasure(GetMeasureCount);
+	InsertMeasure(GetMeasureCount());
+};
+void RemoveMeasureFromEnd ()
+{
+	RemoveMeasure(GetMeasureCount() - 1);
 };
 int main ()
 {
@@ -14,7 +18,8 @@ int main ()
 	slSetCustomDrawStage_Middle(DrawGrid);
 	//ui_init();
 	//music_init();
-	slGetKeyBind("Append Measure",SDLK_m)->onpress = AddMeasureAtEnd;
+	slGetKeyBind("Append Measure to End",SDLK_m)->onpress = InsertMeasureAtEnd;
+	slGetKeyBind("Chop Measure from End",SDLK_n)->onpress = RemoveMeasureFromEnd;
 	slKeyBind* dragbind = slGetKeyBind("Drag Note",0,SDL_BUTTON(SDL_BUTTON_LEFT));
 	dragbind->onpress = GrabNote;
 	dragbind->onrelease = ReleaseNote;
