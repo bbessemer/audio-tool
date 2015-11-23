@@ -12,19 +12,34 @@ void RemoveMeasureFromEnd ()
 {
 	RemoveMeasure(GetMeasureCount() - 1);
 };
-slScalar SongTime = 0;
+bool SongPlaying = false;
+bool LoopSong = true;
 void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 {
-	for (slBU cur = 0; cur < samples; cur++)
+	if (GetSongPosition() > GetSongLength())
 	{
-		// Get a sample from the MusicMap.
-		slScalar value = GetSample(persample);
-		// Copy this sample into the audio.
-		*(buf + cur) = value;
-		// Since we're only making mono sound,
-		// the right channel in stereo sound
-		// should have the same data as left.
-		if (stereo) *(buf + samples + cur) = value;
+		if (LoopSong) SetSongPosition(0);
+		else SongPlaying = false;
+	};
+	slBU cur;
+	if (SongPlaying)
+	{
+		for (cur = 0; cur < samples; cur++)
+		{
+			// Get a sample from the MusicMap.
+			slScalar value = GetSample(persample);
+			// Copy this sample into the audio.
+			*(buf + cur) = value;
+			// Since we're only making mono sound,
+			// the right channel in stereo sound
+			// should have the same data as left.
+			if (stereo) *(buf + samples + cur) = value;
+		};
+	}
+	else
+	{
+		for (cur = 0; cur < samples; cur++) *(buf + cur) = 0;
+		if (stereo) for (cur = 0; cur < samples; cur++) *(buf + samples + cur) = 0;
 	};
 };
 int main ()

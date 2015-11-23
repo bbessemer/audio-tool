@@ -2,12 +2,12 @@
 #define OCTAVE(midi) ((int)midi/12 - 1)
 #define MIDI(note, octave) ((octave+1)*12+note)
 
-#define WHOLE   384
-#define HALF    192
-#define QUARTER 96
-#define EIGHTH  48
-#define _16TH   24
-#define _32ND   12
+#define _WHOLE     384
+#define _HALF      192
+#define _QUARTER   96
+#define _8TH       48
+#define _16TH      24
+#define _32ND      12
 
 #define CHANNELS 7
 #define ROLL_HEIGHT 0.3
@@ -20,19 +20,18 @@
 
 #include <stdlib.h>
 #include "musicmap.h"
-int BEATS_PER_MEASURE = 8;
-int BEATS_PER_MINIMEASURE = 2;
-int BEAT_LENGTH = QUARTER;
+int BEATS_PER_MEASURE = 16;
+int BEATS_PER_MINIMEASURE = 4;
+int BEAT_LENGTH = _QUARTER;
 slScalar CHANNEL_HEIGHT = ROLL_HEIGHT * (1. / CHANNELS);
 slScalar BEAT_WIDTH = ROLL_WIDTH * (1. / BEATS_PER_MEASURE);
 slScalar ROLL_TOP = (1 - ROLL_HEIGHT) / 2.;
-slBU SongPosition = 0;
+slScalar SongPosition = 0;
 #define GetRollOffset() (SongPosition * BEAT_WIDTH)
 #define GetRollLeft() (((1 - ROLL_WIDTH) / 2.) - GetRollOffset())
 slBU MeasureCount = 0;
 void DrawGrid (SDL_Window* window = NULL, SDL_Renderer* renderer = NULL)
 {
-	printf("drawstage: %dx%dx%d\n",CHANNELS,BEATS_PER_MEASURE,MeasureCount);
 	slScalar roll_left = GetRollLeft();
 	slScalar roll_right = roll_left + (MeasureCount * BEATS_PER_MEASURE * BEAT_WIDTH);
 	slScalar roll_bottom = ROLL_TOP + (CHANNELS * CHANNEL_HEIGHT);
@@ -161,3 +160,24 @@ void RemoveMeasure (slBU where)
 		MeasureCount--;
 	};
 };
+slScalar BeatsPerMinute = 144;
+slScalar GetSongPosition ()
+{
+	return SongPosition;
+};
+void SetSongPosition (slScalar to)
+{
+	SongPosition = to;
+};
+slScalar GetSongLength ()
+{
+	return MeasureCount * BEATS_PER_MEASURE;
+};
+float GetSample (slScalar persample)
+{
+	slScalar sample = 0;
+	// Get the sample.
+	SongPosition += persample * (BeatsPerMinute / 60) * (BEATS_PER_MINIMEASURE);
+	return sample;
+};
+

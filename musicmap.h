@@ -21,3 +21,6 @@ void GrabNote ();
 void ReleaseNote ();
 void UpdateGrabbedNote ();
 float GetSample (slScalar persample);
+slScalar GetSongPosition ();
+slScalar GetSongLength ();
+void SetSongPosition (slScalar to);
