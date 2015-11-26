@@ -103,7 +103,11 @@ void RepositionNotes ()
 		note->box->y = ROLL_TOP + (note->channel * CHANNEL_HEIGHT);
 	};
 };
-
+void RecalculateNotePitch (Note* note)
+{
+	note->box->backcolor = GetNoteColor((note->channel + 7000) % 7);
+	note->pitch = 61 + note->channel;
+};
 void NewNoteAtClickPoint ()
 {
 	slScalar mousex,mousey;
@@ -126,13 +130,13 @@ void NewNoteAtClickPoint ()
 	note->channel = channel;//v;
 	note->duration = DEFAULT_NOTE_LENGTH;
 	//printf("%f\n", note->box->y);
-	note->box->backcolor = GetNoteColor((channel+7000) % 7);
-	note->pitch = 61 + channel;
+	RecalculateNotePitch(note);
 };
 
 void DespawnNote (Note* todespawn)
 {
 	slRemoveItemFromList((void ***)&Notes,&NoteCount,todespawn);
+	slDestroyBox(todespawn->box);
 	free(todespawn);
 };
 Note* GrabbedNote = NULL;
@@ -170,6 +174,7 @@ void ReleaseNote ()
 			// The note has been dragged into a valid grid space.
 			GrabbedNote->channel = channel;
 			GrabbedNote->start = beat;
+			RecalculateNotePitch(GrabbedNote);
 		};
 		// Either remove the note or
 		// set its start and channel.
@@ -239,7 +244,7 @@ slScalar GetSongLength ()
 };
 float GetPitch (int midi_value)
 {
-	return 440 * powf(2,(midi_value - 69) / 12);
+	return 440 * powf(2,(midi_value - 69.) / 12);
 };
 //#define TEST_HERTZ 440 /* A */
 float GetSineSample (float freq, float pos)
@@ -256,7 +261,7 @@ float GetSample (slScalar persample)
 		Note* note = *(Notes + cur);
 		if (note->start <= SongPosition && note->start + note->duration >= SongPosition)
 		{
-			float pitch = GetPitch(note->channel + 62);
+			float pitch = GetPitch(note->pitch);
 			sample += GetSineSample(pitch,SongPosition - note->start) * DEFAULT_NOTE_VOLUME;
 		};
 	};
