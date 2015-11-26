@@ -1,6 +1,6 @@
 #define NOTE(midi) (midi % 12)
 #define OCTAVE(midi) ((int)midi/12 - 1)
-#define MIDI(note, octave) ((octave+1)*12+note)
+#define MIDI(note,octave) (((octave + 1) * 12) + note)
 
 #define _WHOLE     384
 #define _HALF      192
@@ -127,7 +127,8 @@ void NewNoteAtClickPoint ()
 	note->duration = DEFAULT_NOTE_LENGTH;
 	//printf("%f\n", note->box->y);
 	note->box->backcolor = GetNoteColor((channel+7000) % 7);
-}
+	note->pitch = 61 + channel;
+};
 
 void DespawnNote (Note* todespawn)
 {
@@ -223,7 +224,7 @@ void RemoveMeasure (slBU where)
 		MeasureCount--;
 	};
 };
-slScalar BeatsPerMinute = 144;
+float BeatsPerMinute = 144;
 slScalar GetSongPosition ()
 {
 	return SongPosition;
@@ -236,13 +237,30 @@ slScalar GetSongLength ()
 {
 	return MeasureCount * BEATS_PER_MEASURE;
 };
-#define TEST_HERTZ 440 /* A */
+float GetPitch (int midi_value)
+{
+	return 440 * powf(2,(midi_value - 69) / 12);
+};
+//#define TEST_HERTZ 440 /* A */
+float GetSineSample (float freq, float pos)
+{
+	return sinf((pos * (freq / (BeatsPerMinute / 60))) * M_PI);
+};
+#define DEFAULT_NOTE_VOLUME 0.2
 float GetSample (slScalar persample)
 {
 	slScalar sample = 0;
-	sample += sin((SongPosition * (TEST_HERTZ / (BeatsPerMinute / 60))) * M_PI) * 0.5;
-	// Get the sample.
+	//sample += sin((SongPosition * (TEST_HERTZ / (BeatsPerMinute / 60))) * M_PI) * 0.5;
+	for (slBU cur = 0; cur < NoteCount; cur++)
+	{
+		Note* note = *(Notes + cur);
+		if (note->start <= SongPosition && note->start + note->duration >= SongPosition)
+		{
+			float pitch = GetPitch(note->channel + 62);
+			sample += GetSineSample(pitch,SongPosition - note->start) * DEFAULT_NOTE_VOLUME;
+		};
+	};
+	// Advance the song.
 	SongPosition += persample * (BeatsPerMinute / 60) * (BEATS_PER_MINIMEASURE);
 	return sample;
 };
-
