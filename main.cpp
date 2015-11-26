@@ -85,6 +85,4 @@ int main ()
 		slCycle();
 	};
 	slQuit();
-	// return 0; is not necessary
-	// because slQuit exits the program with a zero return
 };
