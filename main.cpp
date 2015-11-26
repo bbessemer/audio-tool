@@ -12,10 +12,31 @@ void RemoveMeasureFromEnd ()
 {
 	RemoveMeasure(GetMeasureCount() - 1);
 };
+bool ReachedEnd = false; // Set by mixer controller.
+
+// Toggles
 bool SongPlaying = false;
 bool LoopSong = false;
-void PlayPauseToggle ();
-bool ReachedEnd = false;
+slBox* PlayToggleButton;
+#define PLAY_BUTTON_IMGPATH "play-button.png"
+#define PAUSE_BUTTON_IMGPATH "pause-button.png"
+slBox* LoopToggleButton;
+#define LOOP_BUTTON_IMGPATH "loop-button.png"
+#define NOLOOP_BUTTON_IMGPATH "noloop-button.png"
+void TogglePlaying ()
+{
+	if (!LoopSong && ReachedEnd) SetSongPosition(0);
+	else ReachedEnd = false;
+	SongPlaying = !SongPlaying;
+	PlayToggleButton->texref = slLoadTexture(SongPlaying ? PAUSE_BUTTON_IMGPATH : PLAY_BUTTON_IMGPATH);
+};
+void ToggleLooping ()
+{
+	LoopSong = !LoopSong;
+	LoopToggleButton->texref = slLoadTexture(LoopSong ? NOLOOP_BUTTON_IMGPATH : LOOP_BUTTON_IMGPATH);
+};
+
+// Mixer Controller
 void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 {
 	slBU cur;
@@ -26,7 +47,7 @@ void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 			if (LoopSong) SetSongPosition(0);
 			else
 			{
-				PlayPauseToggle();
+				TogglePlaying();
 				SetSongPosition(GetSongLength());
 				ReachedEnd = true;
 			};
@@ -52,37 +73,43 @@ void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 		if (stereo) for (cur = 0; cur < samples; cur++) *(buf + samples + cur) = 0;
 	};
 };
-slBox* PlayPauseButton;
-#define PLAY_BUTTON_IMGPATH "play-button.png"
-#define PAUSE_BUTTON_IMGPATH "pause-button.png"
-void PlayPauseToggle ()
-{
-	if (!LoopSong && ReachedEnd) SetSongPosition(0);
-	else ReachedEnd = false;
-	SongPlaying = !SongPlaying;
-	PlayPauseButton->texref = slLoadTexture(SongPlaying ? PAUSE_BUTTON_IMGPATH : PLAY_BUTTON_IMGPATH);
-};
+
 int main ()
 {
 	slInit();
-	PlayPauseButton = slCreateBox(slLoadTexture(PLAY_BUTTON_IMGPATH));
-	slSetBoxDims(PlayPauseButton,0.42,0.72,0.06,0.06);
-	PlayPauseButton->onclick = PlayPauseToggle;
+
+	// UI
+	PlayToggleButton = slCreateBox(slLoadTexture(PLAY_BUTTON_IMGPATH));
+	slSetBoxDims(PlayToggleButton,0.42,0.72,0.06,0.06);
+	PlayToggleButton->onclick = TogglePlaying;
+	LoopToggleButton = slCreateBox(slLoadTexture(LOOP_BUTTON_IMGPATH));
+	slSetBoxDims(LoopToggleButton,0.52,0.72,0.06,0.06);
+	LoopToggleButton->onclick = ToggleLooping;
+
+	// Initialization
 	slSetCustomDrawStage_Middle(DrawGrid);
 	slOpenAudio();
 	slSetCustomMixStage(Mix);
-	//ui_init();
-	//music_init();
+
+	// Keybindings
 	slGetKeyBind("Append Measure to End",SDLK_m)->onpress = InsertMeasureAtEnd;
 	slGetKeyBind("Chop Measure from End",SDLK_n)->onpress = RemoveMeasureFromEnd;
 	slKeyBind* dragbind = slGetKeyBind("Drag Note",0,SDL_BUTTON(SDL_BUTTON_LEFT));
 	dragbind->onpress = GrabNote;
 	dragbind->onrelease = ReleaseNote;
-	while (!slGetExitReq())
+	slGetKeyBind("Toggle Looping",SDLK_l)->onpress = ToggleLooping;
+	slGetKeyBind("Toggle Playing",SDLK_SPACE)->onpress = TogglePlaying;
+
+	// Main Loop
+	while (!slGetReqt())
 	{
 		RepositionNotes();
 		UpdateGrabbedNote();
 		slCycle();
 	};
+
+	// Cleanup
+	slDestroyBox(PlayToggleButton);
+	slDestroyBox(LoopToggleButton);
 	slQuit();
 };
