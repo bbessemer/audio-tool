@@ -16,6 +16,16 @@
 #define MEASURE_SEPARATOR_COLOR {255,0,255,255}
 #define MINIMEASURE_SEPARATOR_COLOR {223,223,0,255}
 
+#define BLACK   {0,   0,   0,   255}
+#define WHITE   {255, 255, 255, 255}
+#define RED     {255, 0,   0,   255}
+#define ORANGE  {255, 128, 0,   255}
+#define YELLOW  {255, 255, 0,   255}
+#define GREEN   {0,   255, 0,   255}
+#define BLUE    {0,   0,   255, 255}
+#define PURPLE  {128, 0,   128, 255}
+#define MAGENTA {255, 0,   255, 255}
+
 /** -------- **/
 
 #include <stdlib.h>
@@ -23,6 +33,7 @@
 int BEATS_PER_MEASURE = 16;
 int BEATS_PER_MINIMEASURE = 4;
 int BEAT_LENGTH = _QUARTER;
+int DEFAULT_NOTE_LENGTH = 1;
 slScalar CHANNEL_HEIGHT = ROLL_HEIGHT * (1. / CHANNELS);
 slScalar BEAT_WIDTH = ROLL_WIDTH * (1. / BEATS_PER_MEASURE);
 slScalar ROLL_TOP = (1 - ROLL_HEIGHT) / 2.;
@@ -51,18 +62,37 @@ void DrawGrid (SDL_Window* window = NULL, SDL_Renderer* renderer = NULL)
 		slDrawScreenLine(roll_left,y,roll_right,y);
 	};
 };
+
 Note** Notes = NULL;
 slBU NoteCount = 0;
+
+SDL_Color GetNoteColor (int relative)
+{
+  switch (relative)
+  {
+    case 0: return RED;
+    case 1: return ORANGE;
+    case 2: return YELLOW;
+    case 3: return GREEN;
+    case 4: return BLUE;
+    case 5: return PURPLE;
+    case 6: return MAGENTA;
+    default: return WHITE;
+  };
+};
+
 Note* SpawnNote ()
 {
 	Note* out = (Note *) malloc(sizeof(Note));
 	out->box = slCreateBox();
 	out->box->w = BEAT_WIDTH;
 	out->box->h = CHANNEL_HEIGHT;
+	out->box->bordercolor = BLACK;
 	out->box->backcolor = {rand() % 256,rand() % 256,rand() % 256,255};
 	slAddItemToList((void ***)&Notes, (Uint64 *)&NoteCount, (void *)out);
 	return out;
 };
+
 void RepositionNotes ()
 {
 	slScalar roll_left = GetRollLeft();
@@ -73,6 +103,28 @@ void RepositionNotes ()
 		note->box->y = ROLL_TOP + (note->channel * CHANNEL_HEIGHT);
 	};
 };
+
+void NewNoteAtClickPoint ()
+{
+	slScalar x, y;
+	slGetMouse(&x, &y);
+  // u and v represent coordinates in beats and channels, respectively.
+  int u = (int)((x - GetRollLeft())/BEAT_WIDTH);
+  int v = (int)((ROLL_TOP - y)/CHANNEL_HEIGHT) - 1;
+  /* v will typically be negative because the baseline is the *top* of the
+   * (original) roll; if the roll is extended upward the baseline will remain
+	 * the same and v can be positive. */
+	Note* note = SpawnNote();
+	note->start = u;
+	note->channel = v;
+	note->duration = DEFAULT_NOTE_LENGTH;
+	note->box->w = DEFAULT_NOTE_LENGTH*BEAT_WIDTH;
+	note->box->x = GetRollLeft() + u*BEAT_WIDTH;
+	note->box->y = ROLL_TOP - (slScalar)(v+1)*CHANNEL_HEIGHT;
+	printf("%f\n", note->box->y);
+	note->box->backcolor = GetNoteColor((v+7000) % 7);
+}
+
 void DespawnNote (Note* todespawn)
 {
 	slRemoveItemFromList((void ***)&Notes,&NoteCount,todespawn);
@@ -89,9 +141,11 @@ void GrabNote ()
 		if (slPointOnBox(note->box,mousex,mousey))
 		{
 			GrabbedNote = note;
-			break;
+			return;
 		};
 	};
+	// Will only be reached if no note is there to be dragged.
+	NewNoteAtClickPoint();
 };
 void ReleaseNote ()
 {
