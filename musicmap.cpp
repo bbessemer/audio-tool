@@ -11,7 +11,7 @@
 
 #define CHANNELS 7
 #define ROLL_HEIGHT 0.3
-#define ROLL_WIDTH 0.5
+#define ROLL_WIDTH 0.3
 #define GRID_COLOR {191,191,191,255}
 #define MEASURE_SEPARATOR_COLOR {255,0,255,255}
 #define MINIMEASURE_SEPARATOR_COLOR {223,223,0,255}
@@ -30,10 +30,12 @@
 
 #include <stdlib.h>
 #include "musicmap.h"
-int BEATS_PER_MEASURE = 16;
-int BEATS_PER_MINIMEASURE = 4;
+int MajorScale[8] = {0, 2, 4, 5, 7, 9, 11};
+
+int BEATS_PER_MEASURE = 8;
+int BEATS_PER_MINIMEASURE = 2;
 int BEAT_LENGTH = _QUARTER;
-int DEFAULT_NOTE_LENGTH = 1;
+int DEFAULT_NOTE_LENGTH = 2;
 slScalar CHANNEL_HEIGHT = ROLL_HEIGHT * (1. / CHANNELS);
 slScalar BEAT_WIDTH = ROLL_WIDTH * (1. / BEATS_PER_MEASURE);
 slScalar ROLL_TOP = (1 - ROLL_HEIGHT) / 2.;
@@ -105,8 +107,8 @@ void RepositionNotes ()
 };
 void RecalculateNotePitch (Note* note)
 {
-	note->box->backcolor = GetNoteColor((note->channel + 7000) % 7);
-	note->pitch = 61 + note->channel;
+	note->box->backcolor = GetNoteColor((note->channel) % 7);
+	note->pitch = 61 + MajorScale[note->channel % 7] + 12*((int)note->channel/7);
 };
 void NewNoteAtClickPoint ()
 {
@@ -119,17 +121,10 @@ void NewNoteAtClickPoint ()
 	// It's not out of bounds, so figure out where it goes.
 	slBU channel = (mousey - ROLL_TOP) / CHANNEL_HEIGHT;
 	slBU start = (mousex - roll_left) / BEAT_WIDTH;
-  // u and v represent coordinates in beats and channels, respectively.
-//  int u = (int)((x - GetRollLeft())/BEAT_WIDTH);
-//  int v = (int)((ROLL_TOP - y)/CHANNEL_HEIGHT) - 1;
-  /* v will typically be negative because the baseline is the *top* of the
-   * (original) roll; if the roll is extended upward the baseline will remain
-	 * the same and v can be positive. */
 	Note* note = SpawnNote();
 	note->start = start;//u;
-	note->channel = channel;//v;
+	note->channel = channel;
 	note->duration = DEFAULT_NOTE_LENGTH;
-	//printf("%f\n", note->box->y);
 	RecalculateNotePitch(note);
 };
 
@@ -229,7 +224,7 @@ void RemoveMeasure (slBU where)
 		MeasureCount--;
 	};
 };
-float BeatsPerMinute = 144;
+float BeatsPerMinute = 120;
 slScalar GetSongPosition ()
 {
 	return SongPosition;
