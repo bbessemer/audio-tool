@@ -1,6 +1,6 @@
 #define NOTE(midi) (midi % 12)
 #define OCTAVE(midi) ((int)midi/12 - 1)
-#define MIDI(note, octave) ((octave+1)*12+note)
+#define MIDI(note,octave) (((octave + 1) * 12) + note)
 
 #define _WHOLE     384
 #define _HALF      192
@@ -19,11 +19,11 @@
 #define BLACK   {0,   0,   0,   255}
 #define WHITE   {255, 255, 255, 255}
 #define RED     {255, 0,   0,   255}
-#define ORANGE  {255, 128, 0,   255}
+#define ORANGE  {255, 127, 0,   255}
 #define YELLOW  {255, 255, 0,   255}
 #define GREEN   {0,   255, 0,   255}
 #define BLUE    {0,   0,   255, 255}
-#define PURPLE  {128, 0,   128, 255}
+#define PURPLE  {127, 0,   127, 255}
 #define MAGENTA {255, 0,   255, 255}
 
 /** -------- **/
@@ -85,11 +85,10 @@ Note* SpawnNote ()
 {
 	Note* out = (Note *) malloc(sizeof(Note));
 	out->box = slCreateBox();
-	out->box->w = BEAT_WIDTH;
 	out->box->h = CHANNEL_HEIGHT;
 	out->box->bordercolor = BLACK;
 	out->box->backcolor = {rand() % 256,rand() % 256,rand() % 256,255};
-	slAddItemToList((void ***)&Notes, (Uint64 *)&NoteCount, (void *)out);
+	slAddItemToList((void ***)&Notes, (slBU *)&NoteCount, (void *)out);
 	return out;
 };
 
@@ -99,35 +98,45 @@ void RepositionNotes ()
 	for (slBU cur = 0; cur < NoteCount; cur++)
 	{
 		Note* note = *(Notes + cur);
+		note->box->w = BEAT_WIDTH * note->duration;
 		note->box->x = roll_left + (note->start * BEAT_WIDTH);
 		note->box->y = ROLL_TOP + (note->channel * CHANNEL_HEIGHT);
 	};
 };
-
+void RecalculateNotePitch (Note* note)
+{
+	note->box->backcolor = GetNoteColor((note->channel + 7000) % 7);
+	note->pitch = 61 + note->channel;
+};
 void NewNoteAtClickPoint ()
 {
-	slScalar x, y;
-	slGetMouse(&x, &y);
+	slScalar mousex,mousey;
+	slGetMouse(&mousex,&mousey);
+	// If it's out of bounds, don't even bother.
+	if (mousey < ROLL_TOP || mousey > ROLL_TOP + (CHANNELS * CHANNEL_HEIGHT)) return;
+	slScalar roll_left = GetRollLeft();
+	if (mousex < roll_left || mousex > roll_left + (MeasureCount * BEATS_PER_MEASURE)) return;
+	// It's not out of bounds, so figure out where it goes.
+	slBU channel = (mousey - ROLL_TOP) / CHANNEL_HEIGHT;
+	slBU start = (mousex - roll_left) / BEAT_WIDTH;
   // u and v represent coordinates in beats and channels, respectively.
-  int u = (int)((x - GetRollLeft())/BEAT_WIDTH);
-  int v = (int)((ROLL_TOP - y)/CHANNEL_HEIGHT) - 1;
+//  int u = (int)((x - GetRollLeft())/BEAT_WIDTH);
+//  int v = (int)((ROLL_TOP - y)/CHANNEL_HEIGHT) - 1;
   /* v will typically be negative because the baseline is the *top* of the
    * (original) roll; if the roll is extended upward the baseline will remain
 	 * the same and v can be positive. */
 	Note* note = SpawnNote();
-	note->start = u;
-	note->channel = v;
+	note->start = start;//u;
+	note->channel = channel;//v;
 	note->duration = DEFAULT_NOTE_LENGTH;
-	note->box->w = DEFAULT_NOTE_LENGTH*BEAT_WIDTH;
-	note->box->x = GetRollLeft() + u*BEAT_WIDTH;
-	note->box->y = ROLL_TOP - (slScalar)(v+1)*CHANNEL_HEIGHT;
-	printf("%f\n", note->box->y);
-	note->box->backcolor = GetNoteColor((v+7000) % 7);
-}
+	//printf("%f\n", note->box->y);
+	RecalculateNotePitch(note);
+};
 
 void DespawnNote (Note* todespawn)
 {
 	slRemoveItemFromList((void ***)&Notes,&NoteCount,todespawn);
+	slDestroyBox(todespawn->box);
 	free(todespawn);
 };
 Note* GrabbedNote = NULL;
@@ -165,6 +174,7 @@ void ReleaseNote ()
 			// The note has been dragged into a valid grid space.
 			GrabbedNote->channel = channel;
 			GrabbedNote->start = beat;
+			RecalculateNotePitch(GrabbedNote);
 		};
 		// Either remove the note or
 		// set its start and channel.
@@ -173,7 +183,12 @@ void ReleaseNote ()
 };
 void UpdateGrabbedNote ()
 {
-	if (GrabbedNote) slGetMouse(&(GrabbedNote->box->x),&(GrabbedNote->box->y));
+	if (GrabbedNote)
+	{
+		slGetMouse(&(GrabbedNote->box->x),&(GrabbedNote->box->y));
+		GrabbedNote->box->x -= GrabbedNote->box->w / 2;
+		GrabbedNote->box->y -= GrabbedNote->box->h / 2;
+	};
 };
 slBU GetMeasureCount ()
 {
@@ -214,7 +229,7 @@ void RemoveMeasure (slBU where)
 		MeasureCount--;
 	};
 };
-slScalar BeatsPerMinute = 144;
+float BeatsPerMinute = 144;
 slScalar GetSongPosition ()
 {
 	return SongPosition;
@@ -227,13 +242,30 @@ slScalar GetSongLength ()
 {
 	return MeasureCount * BEATS_PER_MEASURE;
 };
-#define TEST_HERTZ 440 /* A */
+float GetPitch (int midi_value)
+{
+	return 440 * powf(2,(midi_value - 69.) / 12);
+};
+//#define TEST_HERTZ 440 /* A */
+float GetSineSample (float freq, float pos)
+{
+	return sinf((pos * (freq / (BeatsPerMinute / 60))) * M_PI);
+};
+#define DEFAULT_NOTE_VOLUME 0.2
 float GetSample (slScalar persample)
 {
 	slScalar sample = 0;
-	sample += sin((SongPosition * (TEST_HERTZ / (BeatsPerMinute / 60))) * M_PI) * 0.5;
-	// Get the sample.
+	//sample += sin((SongPosition * (TEST_HERTZ / (BeatsPerMinute / 60))) * M_PI) * 0.5;
+	for (slBU cur = 0; cur < NoteCount; cur++)
+	{
+		Note* note = *(Notes + cur);
+		if (note->start <= SongPosition && note->start + note->duration >= SongPosition)
+		{
+			float pitch = GetPitch(note->pitch);
+			sample += GetSineSample(pitch,SongPosition - note->start) * DEFAULT_NOTE_VOLUME;
+		};
+	};
+	// Advance the song.
 	SongPosition += persample * (BeatsPerMinute / 60) * (BEATS_PER_MINIMEASURE);
 	return sample;
 };
-
