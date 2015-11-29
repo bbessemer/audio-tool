@@ -30,6 +30,7 @@
 
 #include <stdlib.h>
 #include "musicmap.h"
+#include "samples.h"
 
 int MajorScale[8] = {0, 2, 4, 5, 7, 9, 11};
 

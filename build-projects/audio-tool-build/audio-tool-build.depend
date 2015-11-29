@@ -6,14 +6,18 @@
 1448535306 c:\collaboratives\audio-tool\musicmap.h
 	<slice.h>
 
-1448815821 source:c:\users\bmb06\code\tsa\audio-tool\main.cpp
+1448816957 source:c:\users\bmb06\code\tsa\audio-tool\main.cpp
 	<slice.h>
 	"musicmap.h"
+	"samples.h"
 
-1448814929 c:\users\bmb06\code\tsa\audio-tool\musicmap.h
+1448816957 c:\users\bmb06\code\tsa\audio-tool\musicmap.h
 	<slice.h>
 
-1448815419 source:c:\users\bmb06\code\tsa\audio-tool\musicmap.cpp
+1448817139 source:c:\users\bmb06\code\tsa\audio-tool\musicmap.cpp
 	<stdlib.h>
 	"musicmap.h"
+	"samples.h"
+
+1448816957 c:\users\bmb06\code\tsa\audio-tool\samples.h
 
