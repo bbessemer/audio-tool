@@ -6,3 +6,4 @@ struct Instrument
 };
 float GetInstrumentSample (slBU inst_id, float freq, float offset);
 void LoadAllInstruments();
+slBU GetInstrumentID(char*);
