@@ -100,6 +100,12 @@ int main ()
 	dragbind->onrelease = ReleaseNote;
 	slGetKeyBind("Toggle Looping",SDLK_l)->onpress = ToggleLooping;
 	slGetKeyBind("Toggle Playing",SDLK_SPACE)->onpress = TogglePlaying;
+	slGetKeyBind("Whole Note", SDLK_a)->onpress = NoteLengthKeyBind;
+	slGetKeyBind("Half Note", SDLK_s)->onpress = NoteLengthKeyBind;
+	slGetKeyBind("Quarter Note", SDLK_d)->onpress = NoteLengthKeyBind;
+	slGetKeyBind("Eighth Note", SDLK_f)->onpress = NoteLengthKeyBind;
+	slGetKeyBind("Sixteenth Note", SDLK_g)->onpress = NoteLengthKeyBind;
+	slGetKeyBind("32nd Note", SDLK_h)->onpress = NoteLengthKeyBind;
 
 	// Loading
 	LoadAllInstruments();
