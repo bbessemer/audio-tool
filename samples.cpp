@@ -14,8 +14,8 @@ void LoadInstrument (char* name, char* from)
 		container->destroy = false; // don't GC when not playing
 		Instruments = realloc(Instruments,sizeof(Instrument) * (InstrumentCount + 1));
 		Instrument* inst = Instruments + InstrumentCount;
+		InstrumentCount++;
 		inst->name = name;
-		inst->persample = 1. / src->persecond;
 		inst->sound = container;
 	};
 };
@@ -45,7 +45,9 @@ float GetInstrumentSample (slBU inst_id, float freq, float offset)
 	else
 	{
 		Instrument* inst = Instruments + inst_id;
-		slBU sampleoffset = offset * (freq / 440) / inst->persample;
+		//printf("%f %f %f\n",offset,freq,inst->sound->src->persecond);
+		slBU sampleoffset = offset * (freq / (440 * 4)) * inst->sound->src->persecond;
+		//printf("%lX\n",sampleoffset);
 		while (sampleoffset > inst->sound->src->samplecount) sampleoffset -= inst->sound->src->samplecount;
 		if (inst->sound->src->samples_right) return (*(inst->sound->src->samples + sampleoffset) + *(inst->sound->src->samples_right + sampleoffset)) / 2;
 		else return *(inst->sound->src->samples + sampleoffset);

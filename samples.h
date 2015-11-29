@@ -1,7 +1,6 @@
 #pragma once
 struct Instrument
 {
-	float persample;
 	slSound* sound;
 	char* name;
 };
