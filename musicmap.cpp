@@ -266,13 +266,8 @@ float GetPitch (int midi_value)
 {
 	return 440 * powf(2,(midi_value - 69.) / 12);
 };
-//#define TEST_HERTZ 440 /* A */
-float GetSineSample (float freq, float pos)
-{
-	return sinf((pos * (freq / (BeatsPerMinute / 60))) * 2 * M_PI);
-};
 #define DEFAULT_NOTE_VOLUME 0.2
-float GetSample (slScalar persample)
+float GetMixerSample (slScalar persample)
 {
 	slScalar sample = 0;
 	//sample += sin((SongPosition * (TEST_HERTZ / (BeatsPerMinute / 60))) * M_PI) * 0.5;
@@ -282,7 +277,7 @@ float GetSample (slScalar persample)
 		if (note->start <= SongPosition && note->start + note->duration >= SongPosition)
 		{
 			float pitch = GetPitch(note->pitch);
-			sample += GetSineSample(pitch,SongPosition - note->start) * DEFAULT_NOTE_VOLUME;
+			sample += GetInstrumentSample(0,pitch,SongPosition - note->start) * DEFAULT_NOTE_VOLUME;
 		};
 	};
 	// Advance the song.
