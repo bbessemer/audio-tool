@@ -9,8 +9,8 @@
 #define _16TH      24
 #define _32ND      12
 
-#define CHANNELS 7
-#define ROLL_HEIGHT 0.3
+#define CHANNELS (7*OCTAVES+1)
+#define ROLL_HEIGHT (0.3*OCTAVES)
 #define ROLL_WIDTH 0.3
 #define GRID_COLOR {191,191,191,255}
 #define MEASURE_SEPARATOR_COLOR {255,0,255,255}
@@ -30,12 +30,15 @@
 
 #include <stdlib.h>
 #include "musicmap.h"
+
 int MajorScale[8] = {0, 2, 4, 5, 7, 9, 11};
 
+int OCTAVES = 2;
 int BEATS_PER_MEASURE = 8;
 int BEATS_PER_MINIMEASURE = 2;
 int BEAT_LENGTH = _QUARTER;
-int DEFAULT_NOTE_LENGTH = 2;
+slScalar DEFAULT_NOTE_LENGTH = 2;
+slScalar NoteLength = DEFAULT_NOTE_LENGTH;
 slScalar CHANNEL_HEIGHT = ROLL_HEIGHT * (1. / CHANNELS);
 slScalar BEAT_WIDTH = ROLL_WIDTH * (1. / BEATS_PER_MEASURE);
 slScalar ROLL_TOP = (1 - ROLL_HEIGHT) / 2.;
@@ -43,6 +46,28 @@ slScalar SongPosition = 0;
 #define GetRollOffset() (SongPosition * BEAT_WIDTH)
 #define GetRollLeft() (((1 - ROLL_WIDTH) / 2.) - GetRollOffset())
 slBU MeasureCount = 0;
+
+slScalar GetNoteLengthByKey (Uint32 key)
+{
+	switch (key)
+	{
+		// short notes
+		case SDLK_f: return 1; // eighth
+		case SDLK_g: return 0.5; // sixteenth
+		case SDLK_h: return 0.25; // 32nd
+		// long notes
+		case SDLK_d: return BEATS_PER_MINIMEASURE; // (dotted) quarter
+		case SDLK_s: return 2*BEATS_PER_MINIMEASURE; // (dotted) half
+		case SDLK_a: return 4*BEATS_PER_MINIMEASURE; // whole or 2 dotted halves
+		default: return 1;
+	}
+}
+
+void NoteLengthKeyBind (slKeyBind* kb)
+{
+  NoteLength = GetNoteLengthByKey(kb->key);
+}
+
 void DrawGrid (SDL_Window* window = NULL, SDL_Renderer* renderer = NULL)
 {
 	slScalar roll_left = GetRollLeft();
@@ -124,7 +149,7 @@ void NewNoteAtClickPoint ()
 	Note* note = SpawnNote();
 	note->start = start;//u;
 	note->channel = channel;
-	note->duration = DEFAULT_NOTE_LENGTH;
+	note->duration = NoteLength;
 	RecalculateNotePitch(note);
 };
 

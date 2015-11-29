@@ -24,3 +24,5 @@ float GetSample (slScalar persample);
 slScalar GetSongPosition ();
 slScalar GetSongLength ();
 void SetSongPosition (slScalar to);
+slScalar GetNoteLengthByKey (Uint32 key);
+void NoteLengthKeyBind (slKeyBind* kb);

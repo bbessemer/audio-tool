@@ -99,6 +99,12 @@ int main ()
 	dragbind->onrelease = ReleaseNote;
 	slGetKeyBind("Toggle Looping",SDLK_l)->onpress = ToggleLooping;
 	slGetKeyBind("Toggle Playing",SDLK_SPACE)->onpress = TogglePlaying;
+	slGetKeyBind("Note Length 0", SDLK_h)->onpress = NoteLengthKeyBind;
+	slGetKeyBind("Note Length 1", SDLK_g)->onpress = NoteLengthKeyBind;
+	slGetKeyBind("Note Length 2", SDLK_f)->onpress = NoteLengthKeyBind;
+	slGetKeyBind("Note Length 3", SDLK_d)->onpress = NoteLengthKeyBind;
+	slGetKeyBind("Note Length 4", SDLK_s)->onpress = NoteLengthKeyBind;
+	slGetKeyBind("Note Length 5", SDLK_a)->onpress = NoteLengthKeyBind;
 
 	// Main Loop
 	while (!slGetReqt())
