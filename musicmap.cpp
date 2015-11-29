@@ -244,7 +244,7 @@ float GetPitch (int midi_value)
 //#define TEST_HERTZ 440 /* A */
 float GetSineSample (float freq, float pos)
 {
-	return sinf((pos * (freq / (BeatsPerMinute / 60))) * M_PI);
+	return sinf((pos * (freq / (BeatsPerMinute / 60))) * 2 * M_PI);
 };
 #define DEFAULT_NOTE_VOLUME 0.2
 float GetSample (slScalar persample)
