@@ -3,6 +3,7 @@
 //#include "interface.h"
 //#include "mixer/mixer.h"
 #include "musicmap.h"
+#include "samples.h"
 
 void InsertMeasureAtEnd ()
 {
@@ -58,7 +59,7 @@ void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 		for (cur = 0; cur < samples; cur++)
 		{
 			// Get a sample from the MusicMap.
-			slScalar value = GetSample(persample);
+			slScalar value = GetMixerSample(persample);
 			// Copy this sample into the audio.
 			*(buf + cur) = value;
 			// Since we're only making mono sound,
@@ -99,12 +100,9 @@ int main ()
 	dragbind->onrelease = ReleaseNote;
 	slGetKeyBind("Toggle Looping",SDLK_l)->onpress = ToggleLooping;
 	slGetKeyBind("Toggle Playing",SDLK_SPACE)->onpress = TogglePlaying;
-	slGetKeyBind("Note Length 0", SDLK_h)->onpress = NoteLengthKeyBind;
-	slGetKeyBind("Note Length 1", SDLK_g)->onpress = NoteLengthKeyBind;
-	slGetKeyBind("Note Length 2", SDLK_f)->onpress = NoteLengthKeyBind;
-	slGetKeyBind("Note Length 3", SDLK_d)->onpress = NoteLengthKeyBind;
-	slGetKeyBind("Note Length 4", SDLK_s)->onpress = NoteLengthKeyBind;
-	slGetKeyBind("Note Length 5", SDLK_a)->onpress = NoteLengthKeyBind;
+
+	// Loading
+	LoadAllInstruments();
 
 	// Main Loop
 	while (!slGetReqt())

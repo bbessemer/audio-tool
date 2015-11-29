@@ -9,8 +9,8 @@
 #define _16TH      24
 #define _32ND      12
 
-#define CHANNELS (7*OCTAVES+1)
-#define ROLL_HEIGHT (0.3*OCTAVES)
+#define CHANNELS 7
+#define ROLL_HEIGHT 0.3
 #define ROLL_WIDTH 0.3
 #define GRID_COLOR {191,191,191,255}
 #define MEASURE_SEPARATOR_COLOR {255,0,255,255}
@@ -30,15 +30,13 @@
 
 #include <stdlib.h>
 #include "musicmap.h"
-
+#include "samples.h"
 int MajorScale[8] = {0, 2, 4, 5, 7, 9, 11};
 
-int OCTAVES = 2;
 int BEATS_PER_MEASURE = 8;
 int BEATS_PER_MINIMEASURE = 2;
 int BEAT_LENGTH = _QUARTER;
-slScalar DEFAULT_NOTE_LENGTH = 2;
-slScalar NoteLength = DEFAULT_NOTE_LENGTH;
+int DEFAULT_NOTE_LENGTH = 2;
 slScalar CHANNEL_HEIGHT = ROLL_HEIGHT * (1. / CHANNELS);
 slScalar BEAT_WIDTH = ROLL_WIDTH * (1. / BEATS_PER_MEASURE);
 slScalar ROLL_TOP = (1 - ROLL_HEIGHT) / 2.;
@@ -46,28 +44,6 @@ slScalar SongPosition = 0;
 #define GetRollOffset() (SongPosition * BEAT_WIDTH)
 #define GetRollLeft() (((1 - ROLL_WIDTH) / 2.) - GetRollOffset())
 slBU MeasureCount = 0;
-
-slScalar GetNoteLengthByKey (Uint32 key)
-{
-	switch (key)
-	{
-		// short notes
-		case SDLK_f: return 1; // eighth
-		case SDLK_g: return 0.5; // sixteenth
-		case SDLK_h: return 0.25; // 32nd
-		// long notes
-		case SDLK_d: return BEATS_PER_MINIMEASURE; // (dotted) quarter
-		case SDLK_s: return 2*BEATS_PER_MINIMEASURE; // (dotted) half
-		case SDLK_a: return 4*BEATS_PER_MINIMEASURE; // whole or 2 dotted halves
-		default: return 1;
-	}
-}
-
-void NoteLengthKeyBind (slKeyBind* kb)
-{
-  NoteLength = GetNoteLengthByKey(kb->key);
-}
-
 void DrawGrid (SDL_Window* window = NULL, SDL_Renderer* renderer = NULL)
 {
 	slScalar roll_left = GetRollLeft();
@@ -149,7 +125,7 @@ void NewNoteAtClickPoint ()
 	Note* note = SpawnNote();
 	note->start = start;//u;
 	note->channel = channel;
-	note->duration = NoteLength;
+	note->duration = DEFAULT_NOTE_LENGTH;
 	RecalculateNotePitch(note);
 };
 
@@ -266,13 +242,8 @@ float GetPitch (int midi_value)
 {
 	return 440 * powf(2,(midi_value - 69.) / 12);
 };
-//#define TEST_HERTZ 440 /* A */
-float GetSineSample (float freq, float pos)
-{
-	return sinf((pos * (freq / (BeatsPerMinute / 60))) * 2 * M_PI);
-};
 #define DEFAULT_NOTE_VOLUME 0.2
-float GetSample (slScalar persample)
+float GetMixerSample (slScalar persample)
 {
 	slScalar sample = 0;
 	//sample += sin((SongPosition * (TEST_HERTZ / (BeatsPerMinute / 60))) * M_PI) * 0.5;
@@ -282,7 +253,7 @@ float GetSample (slScalar persample)
 		if (note->start <= SongPosition && note->start + note->duration >= SongPosition)
 		{
 			float pitch = GetPitch(note->pitch);
-			sample += GetSineSample(pitch,SongPosition - note->start) * DEFAULT_NOTE_VOLUME;
+			sample += GetInstrumentSample(0,pitch,SongPosition - note->start) * DEFAULT_NOTE_VOLUME;
 		};
 	};
 	// Advance the song.
