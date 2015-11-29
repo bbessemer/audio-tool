@@ -3,7 +3,8 @@
 struct Note
 {
 	int pitch,rel_pitch;
-	slBU start,duration,channel;
+	slBU channel;
+	slScalar start,duration;
 	slBox* box;
 	// TO DO
 	/*
