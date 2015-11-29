@@ -143,17 +143,16 @@ void NewNoteAtClickPoint ()
 	// If it's out of bounds, don't even bother.
 	if (mousey < ROLL_TOP || mousey > ROLL_TOP + (CHANNELS * CHANNEL_HEIGHT)) return;
 	slScalar roll_left = GetRollLeft();
-	if (mousex < roll_left || mousex > roll_left + (MeasureCount * BEATS_PER_MEASURE)) return;
+	if (mousex < roll_left || mousex > roll_left + (((MeasureCount * BEATS_PER_MEASURE) - (DEFAULT_NOTE_LENGTH - 1)) * BEAT_WIDTH)) return;
 	// It's not out of bounds, so figure out where it goes.
 	slBU channel = (mousey - ROLL_TOP) / CHANNEL_HEIGHT;
 	slBU start = (mousex - roll_left) / BEAT_WIDTH;
 	Note* note = SpawnNote();
-	note->start = start;//u;
+	note->start = start;
 	note->channel = channel;
 	note->duration = NoteLength;
 	RecalculateNotePitch(note);
 };
-
 void DespawnNote (Note* todespawn)
 {
 	slRemoveItemFromList((void ***)&Notes,&NoteCount,todespawn);
