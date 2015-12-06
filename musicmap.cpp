@@ -32,7 +32,10 @@
 #include "musicmap.h"
 #include "samples.h"
 
-int MajorScale[8] = {0, 2, 4, 5, 7, 9, 11};
+slScalar MajorScaleTuning[8] = {1., 9./8., 5./4., 4./3., 3./2., 5./3., 15./8.};
+slScalar Aug = 25/24;
+slScalar Dim = 24/25;
+int KeyNote = 61;
 
 int OCTAVES = 2;
 int BEATS_PER_MEASURE = 8;
@@ -134,7 +137,8 @@ void RepositionNotes ()
 void RecalculateNotePitch (Note* note)
 {
 	note->box->backcolor = GetNoteColor((note->channel) % 7);
-	note->pitch = 61 + MajorScale[note->channel % 7] + 12*((int)note->channel/7);
+	note->pitch = GetPitch(KeyNote)*MajorScaleTuning[note->channel % 7]*pow(2., ((int)note->channel/7));
+	note->pitch *= pow(Aug, 0); // TODO: replace this zero
 };
 void NewNoteAtClickPoint ()
 {
@@ -262,7 +266,7 @@ slScalar GetSongLength ()
 {
 	return MeasureCount * BEATS_PER_MEASURE;
 };
-float GetPitch (int midi_value)
+slScalar GetPitch (int midi_value)
 {
 	return 440 * powf(2,(midi_value - 69.) / 12);
 };
@@ -276,7 +280,7 @@ float GetMixerSample (slScalar persample)
 		Note* note = *(Notes + cur);
 		if (note->start <= SongPosition && note->start + note->duration >= SongPosition)
 		{
-			float pitch = GetPitch(note->pitch);
+			float pitch = note->pitch;
 			sample += GetInstrumentSample(0,pitch,SongPosition - note->start) * DEFAULT_NOTE_VOLUME;
 		};
 	};

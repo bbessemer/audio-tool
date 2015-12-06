@@ -2,7 +2,8 @@
 #include <slice.h>
 struct Note
 {
-	int pitch,rel_pitch;
+	slScalar pitch;
+	int rel_pitch;
 	slBU channel;
 	slScalar start,duration;
 	slBox* box;
@@ -26,3 +27,4 @@ slScalar GetSongPosition ();
 slScalar GetSongLength ();
 void SetSongPosition (slScalar to);
 void NoteLengthKeyBind (slKeyBind* kb);
+slScalar GetPitch (int midi_value);
