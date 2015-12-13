@@ -1,10 +1,10 @@
 #pragma once
 #include <slice.h>
+#include "chords.h"
 struct Note
 {
 	slScalar pitch;
-	int rel_pitch;
-	slBU channel;
+	slBS channel;
 	slScalar start,duration;
 	slBox* box;
 	// TO DO
@@ -13,6 +13,7 @@ struct Note
 	slScalar volume;
 	*/
 };
+
 Note* SpawnNote ();
 void RepositionNotes ();
 void DrawGrid (SDL_Window*, SDL_Renderer*);
