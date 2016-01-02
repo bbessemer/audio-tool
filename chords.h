@@ -27,6 +27,7 @@ struct Chord
 	Sint8 fifth;
 	Sint8 inversion;
 	Uint8 added;
+	Note* notes;
 };
 
 Chord* MakeChord (slBS root, Sint8 minor, Sint8 fifth, Sint8 inversion, Uint8 added);
