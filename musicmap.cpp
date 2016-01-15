@@ -30,6 +30,7 @@
 
 #include <stdlib.h>
 #include "musicmap.h"
+#include "chords.h"
 #include "samples.h"
 
 slScalar MajorScaleTuning[8] = {1., 9./8., 5./4., 4./3., 3./2., 5./3., 15./8.};

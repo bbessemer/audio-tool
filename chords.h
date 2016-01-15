@@ -1,6 +1,8 @@
 #ifndef CHORDS_H
 #define CHORDS_H
 
+#include "musicmap.h"
+
 // Scale modes
 #define MAJOR 0
 #define DORIAN 1
@@ -16,6 +18,10 @@
 #define AUGMENTED 1
 #define DIMINISHED -1
 
+#define ADD_SECOND  0x02
+#define ADD_FOURTH  0x08
+#define ADD_SEVENTH 0x40
+
 struct Chord
 {
 	slBS bass;
@@ -27,7 +33,7 @@ struct Chord
 	Sint8 fifth;
 	Sint8 inversion;
 	Uint8 added;
-	Note* notes;
+	Note* __notes;
 };
 
 Chord* MakeChord (slBS root, Sint8 minor, Sint8 fifth, Sint8 inversion, Uint8 added);

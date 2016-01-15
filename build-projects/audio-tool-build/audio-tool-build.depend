@@ -11,12 +11,13 @@
 	"musicmap.h"
 	"samples.h"
 
-1450026470 c:\users\bmb06\code\tsa\audio-tool\musicmap.h
+1452609128 c:\users\bmb06\code\tsa\audio-tool\musicmap.h
 	<slice.h>
 
-1449431878 source:c:\users\bmb06\code\tsa\audio-tool\musicmap.cpp
+1452609142 source:c:\users\bmb06\code\tsa\audio-tool\musicmap.cpp
 	<stdlib.h>
 	"musicmap.h"
+	"chords.h"
 	"samples.h"
 
 1448830643 c:\users\bmb06\code\tsa\audio-tool\samples.h
@@ -24,4 +25,7 @@
 1448831319 source:c:\users\bmb06\code\tsa\audio-tool\samples.cpp
 	<slice.h>
 	"samples.h"
+
+1452609740 c:\users\bmb06\code\tsa\audio-tool\chords.h
+	"musicmap.h"
 

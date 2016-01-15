@@ -1,6 +1,6 @@
 #pragma once
 #include <slice.h>
-#include "chords.h"
+//#include "chords.h"
 struct Note
 {
 	slScalar pitch;
