@@ -43,6 +43,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="../../chords.cpp" />
 		<Unit filename="../../chords.h" />
 		<Unit filename="../../main.cpp" />
 		<Unit filename="../../musicmap.cpp" />

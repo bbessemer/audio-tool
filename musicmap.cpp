@@ -46,7 +46,7 @@ slScalar DEFAULT_NOTE_LENGTH = 2;
 slScalar NoteLength = DEFAULT_NOTE_LENGTH;
 slScalar CHANNEL_HEIGHT = ROLL_HEIGHT * (1. / CHANNELS);
 slScalar BEAT_WIDTH = ROLL_WIDTH * (1. / BEATS_PER_MEASURE);
-slScalar ROLL_TOP = (1 - ROLL_HEIGHT) / 2.;
+slScalar ROLL_TOP = ((1 - ROLL_HEIGHT) / 2.) - 0.15;
 slScalar SongPosition = 0;
 #define GetRollOffset() (SongPosition * BEAT_WIDTH)
 #define GetRollLeft() (((1 - ROLL_WIDTH) / 2.) - GetRollOffset())

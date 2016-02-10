@@ -81,10 +81,10 @@ int main ()
 
 	// UI
 	PlayToggleButton = slCreateBox(slLoadTexture(PLAY_BUTTON_IMGPATH));
-	slSetBoxDims(PlayToggleButton,0.42,0.72,0.06,0.06);
+	slSetBoxDims(PlayToggleButton,0.42,0.87,0.06,0.06);
 	PlayToggleButton->onclick = TogglePlaying;
 	LoopToggleButton = slCreateBox(slLoadTexture(LOOP_BUTTON_IMGPATH));
-	slSetBoxDims(LoopToggleButton,0.52,0.72,0.06,0.06);
+	slSetBoxDims(LoopToggleButton,0.52,0.87,0.06,0.06);
 	LoopToggleButton->onclick = ToggleLooping;
 
 	// Initialization

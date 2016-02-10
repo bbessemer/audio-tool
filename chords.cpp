@@ -38,6 +38,6 @@ Chord* MakeChord (slBS root, Sint8 minor, Sint8 fifth, Sint8 inversion, Uint8 ad
   }
   memcpy(out->notes, notes_stage2, num_notes*sizeof(slBS));
 
-  scale = out->notes[0];
+  //scale = out->notes[0];
 
 }

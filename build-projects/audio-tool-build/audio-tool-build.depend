@@ -29,3 +29,32 @@
 1452609740 c:\users\bmb06\code\tsa\audio-tool\chords.h
 	"musicmap.h"
 
+1448829404 source:d:\code\tsa\audio-tool\main.cpp
+	<slice.h>
+	"musicmap.h"
+	"samples.h"
+
+1452609128 d:\code\tsa\audio-tool\musicmap.h
+	<slice.h>
+
+1448830643 d:\code\tsa\audio-tool\samples.h
+
+1448831319 source:d:\code\tsa\audio-tool\samples.cpp
+	<slice.h>
+	"samples.h"
+
+1452891204 source:d:\code\tsa\audio-tool\chords.cpp
+	"chords.h"
+	"util.h"
+
+1453675971 d:\code\tsa\audio-tool\chords.h
+	"musicmap.h"
+
+1452611528 d:\code\tsa\audio-tool\util.h
+
+1454617522 source:d:\code\tsa\audio-tool\musicmap.cpp
+	<stdlib.h>
+	"musicmap.h"
+	"chords.h"
+	"samples.h"
+
