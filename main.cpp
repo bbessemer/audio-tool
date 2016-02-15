@@ -40,6 +40,20 @@ void ToggleLooping ()
 // Mixer Controller
 void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 {
+	/*
+	/// NOISE GENERATOR (For Testing)
+	for (slBU cur = 0; cur < samples; cur++)
+	{
+		float random = ((rand() % 1000) / 500.f) - 1.f;
+		*(buf + cur) = random;
+		if (stereo) *(buf + samples + cur) = random;
+	};
+	return;
+	*/
+
+
+
+
 	slBU cur;
 	if (SongPlaying)
 	{
