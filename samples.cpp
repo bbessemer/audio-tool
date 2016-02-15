@@ -46,11 +46,14 @@ float GetInstrumentSample (slBU inst_id, float freq, float offset)
 	{
 		//return 0;
 		Instrument* inst = Instruments + inst_id;
-		//printf("%f %f %f\n",offset,freq,inst->sound->src->persecond);
-		slBU sampleoffset = slRound(offset * (freq / (440 * 4)) * inst->sound->src->persecond);
-		//printf("%lX\n",sampleoffset);
-		while (sampleoffset >= inst->sound->src->samplecount) sampleoffset -= inst->sound->src->samplecount;
-		if (inst->sound->src->samples_right) return (*(inst->sound->src->samples + sampleoffset) + *(inst->sound->src->samples_right + sampleoffset)) / 2;
-		else return *(inst->sound->src->samples + sampleoffset);
+		if (inst->sound->src->ready && inst->sound->src->samples)
+		{
+			//printf("%f %f %f\n",offset,freq,inst->sound->src->persecond);
+			slBU sampleoffset = slRound(offset * (freq / (440 * 4)) * inst->sound->src->persecond);
+			//printf("%lX\n",sampleoffset);
+			while (sampleoffset >= inst->sound->src->samplecount) sampleoffset -= inst->sound->src->samplecount;
+			if (inst->sound->src->samples_right) return (*(inst->sound->src->samples + sampleoffset) + *(inst->sound->src->samples_right + sampleoffset)) / 2;
+			else return *(inst->sound->src->samples + sampleoffset);
+		};
 	};
 };
