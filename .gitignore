@@ -2,3 +2,5 @@
 *.exe
 keybinds.txt
 settings.txt
+build-projects/audio-tool-build/audio-tool-build.cbp
+build-projects/audio-tool-build/audio-tool-build.layout
