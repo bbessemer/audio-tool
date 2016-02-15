@@ -24,17 +24,17 @@
 
 struct Chord
 {
-	slBS bass;
-	slBS scale;
+	slBS bass, scale, root;
 	slBS notes[8];
 	slBU num_notes;
-	slBS root;
 	Sint8 minor;
 	Sint8 fifth;
 	Sint8 inversion;
 	Uint8 added;
 	Note* __notes;
 	slBox* box;
+	bool selected;
+  slScalar start, duration;
 };
 
 Chord* MakeChord (slBS root, Sint8 minor, Sint8 fifth, Sint8 inversion, Uint8 added);

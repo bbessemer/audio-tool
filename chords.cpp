@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "chords.h"
 #include "util.h"
 
@@ -15,7 +17,7 @@ Chord* SpawnChord ()
 	out->box->h = CHORDS_HEIGHT;
 	out->box->bordercolor = WHITE;
 	out->box->backcolor = WHITE;
-	out->box->onclick = SelectChord;
+	//out->box->onclick = SelectChord;
 	out->selected = true;
 	SelectedChord = out;
 	slAddItemToList((void ***)&Chords, (slBU *)&ChordCount, (void *)out);
@@ -69,10 +71,11 @@ void NewChordAtClickPoint()
 	// If it's out of bounds, don't even bother.
 	if (mousey < CHORDS_TOP || mousey > CHORDS_TOP + CHORDS_HEIGHT) return;
 	slScalar roll_left = GetRollLeft();
-	if (mousex < roll_left || mousex > roll_left + (((MeasureCount * BEATS_PER_MEASURE) - (DEFAULT_NOTE_LENGTH - 1)) * BEAT_WIDTH)) return;
+	if (mousex < roll_left || mousex > roll_left + (((GetMeasureCount() * GetBeatsPerMeasure())
+                              - (GetDefaultNoteLength() - 1)) * GetBeatWidth())) return;
 	// It's not out of bounds, so figure out where it goes.
-	slBU start = (mousex - roll_left) / BEAT_WIDTH;
+	slBU start = (mousex - roll_left) / GetBeatWidth();
 	Chord* chord = SpawnChord();
 	chord->start = start;
-	chord->duration = NoteLength;
+	chord->duration = GetNoteLength();
 }
