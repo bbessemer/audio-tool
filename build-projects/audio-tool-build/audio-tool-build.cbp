@@ -11,19 +11,19 @@
 				<Option working_dir="../.." />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gcc_with_slice" />
+				<Option compiler="gcc_with_slice_windows" />
 				<Option use_console_runner="0" />
-				<Option projectCompilerOptionsRelation="-1" />
-				<Option projectLinkerOptionsRelation="-1" />
-				<Option projectIncludeDirsRelation="-1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Option projectIncludeDirsRelation="1" />
 				<Option projectLibDirsRelation="-1" />
 				<Compiler>
-					<Add directory="/home/brent/include" />
+					<Add option="-fpermissive" />
+					<Add option="-fpermissive" />
+					<Add option="-m32" />
+					<Add directory="D:/Development/include" />
 				</Compiler>
 				<Linker>
-					<Add library="/home/brent/lib/libslice.a" />
-					<Add library="/home/brent/lib/libsliceopts.a" />
-					<Add directory="/home/brent/lib" />
+					<Add directory="D:/Development/lib" />
 				</Linker>
 				<MakeCommands>
 					<Build command="" />

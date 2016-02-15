@@ -21,7 +21,7 @@ void LoadInstrument (char* name, char* from)
 };
 void LoadAllInstruments ()
 {
-	LoadInstrument("Piano","samples/piano.wav");
+	LoadInstrument("Piano","samples/piano.swag");
 };
 char* GetInstrumentName (slBU inst_id)
 {
