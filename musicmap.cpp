@@ -119,7 +119,7 @@ Note* SpawnNote ()
 	out->box = slCreateBox();
 	out->box->h = CHANNEL_HEIGHT;
 	out->box->bordercolor = BLACK;
-	out->box->backcolor = {rand() % 256,rand() % 256,rand() % 256,255};
+	out->box->backcolor = WHITE;
 	slAddItemToList((void ***)&Notes, (slBU *)&NoteCount, (void *)out);
 	return out;
 };
@@ -143,8 +143,8 @@ void RecalculateNotePitch (Note* note)
 };
 void NewNoteAtClickPoint ()
 {
-	slScalar mousex,mousey;
-	slGetMouse(&mousex,&mousey);
+	slScalar mousex, mousey;
+	slGetMouse(&mousex, &mousey);
 	// If it's out of bounds, don't even bother.
 	if (mousey < ROLL_TOP || mousey > ROLL_TOP + (CHANNELS * CHANNEL_HEIGHT)) return;
 	slScalar roll_left = GetRollLeft();

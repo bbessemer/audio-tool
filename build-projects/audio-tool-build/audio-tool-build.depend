@@ -3,13 +3,19 @@
 	<slice.h>
 	"musicmap.h"
 
+1453675971 h"
+
 1448535306 c:\collaboratives\audio-tool\musicmap.h
 	<slice.h>
+
+1452891204 
 
 1448829404 source:c:\users\bmb06\code\tsa\audio-tool\main.cpp
 	<slice.h>
 	"musicmap.h"
 	"samples.h"
+
+1454617522 "
 
 1452609128 c:\users\bmb06\code\tsa\audio-tool\musicmap.h
 	<slice.h>
@@ -56,5 +62,34 @@
 	<stdlib.h>
 	"musicmap.h"
 	"chords.h"
+	"samples.h"
+
+1452891204 source:/home/brent/src/TSA/audio-tool/chords.cpp
+	"chords.h"
+	"util.h"
+
+1455076224 /home/brent/src/TSA/audio-tool/chords.h
+	"musicmap.h"
+
+1452609128 /home/brent/src/TSA/audio-tool/musicmap.h
+	<slice.h>
+
+1452611528 /home/brent/src/TSA/audio-tool/util.h
+
+1454617878 source:/home/brent/src/TSA/audio-tool/main.cpp
+	<slice.h>
+	"musicmap.h"
+	"samples.h"
+
+1448830643 /home/brent/src/TSA/audio-tool/samples.h
+
+1454617522 source:/home/brent/src/TSA/audio-tool/musicmap.cpp
+	<stdlib.h>
+	"musicmap.h"
+	"chords.h"
+	"samples.h"
+
+1448831319 source:/home/brent/src/TSA/audio-tool/samples.cpp
+	<slice.h>
 	"samples.h"
 

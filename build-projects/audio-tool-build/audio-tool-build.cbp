@@ -17,6 +17,14 @@
 				<Option projectLinkerOptionsRelation="-1" />
 				<Option projectIncludeDirsRelation="-1" />
 				<Option projectLibDirsRelation="-1" />
+				<Compiler>
+					<Add directory="/home/brent/include" />
+				</Compiler>
+				<Linker>
+					<Add library="/home/brent/lib/libslice.a" />
+					<Add library="/home/brent/lib/libsliceopts.a" />
+					<Add directory="/home/brent/lib" />
+				</Linker>
 				<MakeCommands>
 					<Build command="" />
 					<CompileFile command="" />
