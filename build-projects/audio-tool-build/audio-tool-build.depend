@@ -448,11 +448,12 @@
 
 1455552426 e:\audio-tool\util.h
 
-1455582062 source:e:\audio-tool\main.cpp
+1455588706 source:e:\audio-tool\main.cpp
 	<slice.h>
 	"musicmap.h"
 	"chords.h"
 	"samples.h"
+	"sliceexts.h"
 
 1455552426 e:\audio-tool\samples.h
 
@@ -462,7 +463,13 @@
 	"chords.h"
 	"samples.h"
 
-1455577082 source:e:\audio-tool\samples.cpp
+1455582526 source:e:\audio-tool\samples.cpp
 	<slice.h>
 	"samples.h"
+
+1455588418 e:\audio-tool\sliceexts.h
+
+1455588956 source:e:\audio-tool\fpscounter.cpp
+	<slice.h>
+	"sliceexts.h"
 

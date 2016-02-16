@@ -5,6 +5,7 @@
 #include "musicmap.h"
 #include "chords.h"
 #include "samples.h"
+#include "sliceexts.h"
 
 void InsertMeasureAtEnd ()
 {
@@ -131,6 +132,7 @@ int main ()
 
 	// Loading
 	LoadAllInstruments();
+	slxEnableFpsCounter(SDLK_F3);
 
 	// Main Loop
 	while (!slGetReqt())

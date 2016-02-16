@@ -18,7 +18,6 @@
 				<Option projectLibDirsRelation="-1" />
 				<Compiler>
 					<Add option="-fpermissive" />
-					<Add option="-fpermissive" />
 					<Add option="-m32" />
 					<Add directory="D:/Development/include" />
 				</Compiler>
@@ -53,11 +52,13 @@
 		</Compiler>
 		<Unit filename="../../chords.cpp" />
 		<Unit filename="../../chords.h" />
+		<Unit filename="../../fpscounter.cpp" />
 		<Unit filename="../../main.cpp" />
 		<Unit filename="../../musicmap.cpp" />
 		<Unit filename="../../musicmap.h" />
 		<Unit filename="../../samples.cpp" />
 		<Unit filename="../../samples.h" />
+		<Unit filename="../../sliceexts.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
