@@ -64,3 +64,4 @@ int GetBeatsPerMeasure ();
 slScalar GetDefaultNoteLength ();
 slScalar GetNoteLength ();
 slScalar GetBeatWidth ();
+SDL_Color GetNoteColor (int);

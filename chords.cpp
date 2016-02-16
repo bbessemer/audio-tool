@@ -4,7 +4,7 @@
 #include "util.h"
 
 #define CHORDS_HEIGHT 0.08
-#define CHORDS_TOP 0.75
+#define CHORDS_TOP 0.70
 
 Chord** Chords = NULL;
 slBU ChordCount = 0;
@@ -22,6 +22,14 @@ Chord* SpawnChord ()
 	SelectedChord = out;
 	slAddItemToList((void ***)&Chords, (slBU *)&ChordCount, (void *)out);
 	return out;
+}
+
+void EditChordKeyBind (slKeyBind* kb)
+{
+  slBS new_root = kb->key - SDLK_0 - 1;
+  bool third = (new_root == 1) || (new_root == 2) || (new_root == 5) || (new_root == 7);
+  int fifth = (new_root == 7) ? DIMINISHED : PERFECT;
+  RemakeChord(SelectedChord, new_root, third, fifth, 0, NO_ADDITIONS);
 }
 
 void RemakeChord (Chord* out, slBS root, Sint8 minor, Sint8 fifth,
@@ -60,14 +68,20 @@ void RemakeChord (Chord* out, slBS root, Sint8 minor, Sint8 fifth,
   }
   memcpy(out->notes, notes_stage2, num_notes*sizeof(slBS));
 
-  //scale = out->notes[0];
+  // Temporary
+  slBS scale = root;
+  slBS bass = root;
 
+  out->scale = scale;
+  out->bass = bass;
+  out->box->backcolor = GetNoteColor(scale);
 }
 
 void NewChordAtClickPoint()
 {
   slScalar mousex, mousey;
 	slGetMouse(&mousex, &mousey);
+	printf("New chord at %f, %f\n", mousex, mousey);
 	// If it's out of bounds, don't even bother.
 	if (mousey < CHORDS_TOP || mousey > CHORDS_TOP + CHORDS_HEIGHT) return;
 	slScalar roll_left = GetRollLeft();
@@ -79,3 +93,15 @@ void NewChordAtClickPoint()
 	chord->start = start;
 	chord->duration = GetNoteLength();
 }
+
+void RepositionChords ()
+{
+	slScalar roll_left = GetRollLeft();
+	for (slBU i = 0; i < ChordCount; i++)
+	{
+		Chord* chord = Chords[i];
+		chord->box->w = GetBeatWidth() * chord->duration;
+		chord->box->x = roll_left + (chord->start * GetBeatWidth());
+		chord->box->y = CHORDS_TOP;
+	};
+};

@@ -18,6 +18,7 @@
 #define AUGMENTED 1
 #define DIMINISHED -1
 
+#define NO_ADDITIONS 0x00
 #define ADD_SECOND  0x02
 #define ADD_FOURTH  0x08
 #define ADD_SEVENTH 0x40
@@ -39,5 +40,9 @@ struct Chord
 
 Chord* MakeChord (slBS root, Sint8 minor, Sint8 fifth, Sint8 inversion, Uint8 added);
 void RecalculateChordNotes (Chord* chord);
+void RepositionChords ();
+void NewChordAtClickPoint ();
+void RemakeChord(Chord*, slBS, Sint8, Sint8, Sint8, Uint8);
+void EditChordKeyBind (slKeyBind*);
 
 #endif // CHORDS_H

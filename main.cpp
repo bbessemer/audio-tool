@@ -3,6 +3,7 @@
 //#include "interface.h"
 //#include "mixer/mixer.h"
 #include "musicmap.h"
+#include "chords.h"
 #include "samples.h"
 
 void InsertMeasureAtEnd ()
@@ -120,6 +121,13 @@ int main ()
 	slGetKeyBind("Eighth Note", SDLK_f)->onpress = NoteLengthKeyBind;
 	slGetKeyBind("Sixteenth Note", SDLK_g)->onpress = NoteLengthKeyBind;
 	slGetKeyBind("32nd Note", SDLK_h)->onpress = NoteLengthKeyBind;
+	slGetKeyBind("I Chord", SDLK_1)->onpress = EditChordKeyBind;
+	slGetKeyBind("II Chord", SDLK_2)->onpress = EditChordKeyBind;
+	slGetKeyBind("III Chord", SDLK_3)->onpress = EditChordKeyBind;
+	slGetKeyBind("IV Chord", SDLK_4)->onpress = EditChordKeyBind;
+	slGetKeyBind("V Chord", SDLK_5)->onpress = EditChordKeyBind;
+	slGetKeyBind("VI Chord", SDLK_6)->onpress = EditChordKeyBind;
+	slGetKeyBind("VII Chord", SDLK_7)->onpress = EditChordKeyBind;
 
 	// Loading
 	LoadAllInstruments();
@@ -128,6 +136,7 @@ int main ()
 	while (!slGetReqt())
 	{
 		RepositionNotes();
+		RepositionChords();
 		UpdateGrabbedNote();
 		slCycle();
 	};
