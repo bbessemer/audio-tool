@@ -10,26 +10,64 @@ Chord** Chords = NULL;
 slBU ChordCount = 0;
 Chord* SelectedChord = NULL;
 
+void SelectChord (slBox* cbox)
+{
+  if (SelectedChord) SelectedChord->box->bordercolor = WHITE;
+  Chord* chord = 0;
+  int i;
+  for (i = 0; i < ChordCount; i++)
+  {
+    if (Chords[i]->box == cbox)
+    {
+      chord = Chords[i];
+      chord->box->bordercolor = BLACK;
+      break;
+    }
+  }
+  SelectedChord = chord;
+}
+
+
 Chord* SpawnChord ()
 {
+
+
+
+  if (SelectedChord) SelectedChord->box->bordercolor = WHITE;
   Chord* out = (Chord *)malloc(sizeof(Chord));
   out->box = slCreateBox();
 	out->box->h = CHORDS_HEIGHT;
-	out->box->bordercolor = WHITE;
-	out->box->backcolor = WHITE;
-	//out->box->onclick = SelectChord;
+	out->box->bordercolor = BLACK;
+	out->box->backcolor = GREY;
+	out->box->onclick = SelectChord;
 	out->selected = true;
 	SelectedChord = out;
 	slAddItemToList((void ***)&Chords, (slBU *)&ChordCount, (void *)out);
 	return out;
 }
 
+void DestroyChord (Chord* chord)
+{
+  if (SelectedChord == chord) SelectedChord = NULL;
+  slDestroyBox(chord->box);
+  slRemoveItemFromList(&Chords,&ChordCount,chord);
+  free(chord);
+};
+
 void EditChordKeyBind (slKeyBind* kb)
 {
-  slBS new_root = kb->key - SDLK_0 - 1;
-  bool third = (new_root == 1) || (new_root == 2) || (new_root == 5) || (new_root == 7);
-  int fifth = (new_root == 7) ? DIMINISHED : PERFECT;
-  RemakeChord(SelectedChord, new_root, third, fifth, 0, NO_ADDITIONS);
+  if (SelectedChord)
+  {
+    slBS new_root = kb->key - SDLK_0 - 1;
+    bool third = (new_root == 1) || (new_root == 2) || (new_root == 5) || (new_root == 7);
+    int fifth = (new_root == 7) ? DIMINISHED : PERFECT;
+    RemakeChord(SelectedChord, new_root, third, fifth, 0, NO_ADDITIONS);
+  };
+}
+
+void RemoveChordKeyBind ()
+{
+  if (SelectedChord) DestroyChord(SelectedChord);
 }
 
 void RemakeChord (Chord* out, slBS root, Sint8 minor, Sint8 fifth,
@@ -81,7 +119,7 @@ void NewChordAtClickPoint()
 {
   slScalar mousex, mousey;
 	slGetMouse(&mousex, &mousey);
-	printf("New chord at %f, %f\n", mousex, mousey);
+	///printf("New chord at %f, %f\n", mousex, mousey);
 	// If it's out of bounds, don't even bother.
 	if (mousey < CHORDS_TOP || mousey > CHORDS_TOP + CHORDS_HEIGHT) return;
 	slScalar roll_left = GetRollLeft();
@@ -92,7 +130,19 @@ void NewChordAtClickPoint()
 	Chord* chord = SpawnChord();
 	chord->start = start;
 	chord->duration = GetNoteLength();
+	for (slBU cur = 0; cur < ChordCount; cur++)
+  {
+    Chord* other = *(Chords + cur);
+    if ((chord->start > other->start && chord->start < other->start + other->duration)
+     || (chord->start + chord->duration > other->start && chord->start + chord->duration < other->start + other->duration))
+    {
+      DestroyChord(chord);
+      break;
+    };
+  }
 }
+
+/// YOLOSWAG BRUH
 
 void RepositionChords ()
 {

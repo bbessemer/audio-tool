@@ -11,7 +11,7 @@
 				<Option working_dir="../.." />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gcc_with_slice_windows" />
+				<Option compiler="gcc_with_slice" />
 				<Option use_console_runner="0" />
 				<Option projectLinkerOptionsRelation="1" />
 				<Option projectIncludeDirsRelation="1" />
@@ -58,6 +58,7 @@
 		<Unit filename="../../musicmap.h" />
 		<Unit filename="../../samples.cpp" />
 		<Unit filename="../../samples.h" />
+		<Unit filename="../../sliceexts.cpp" />
 		<Unit filename="../../sliceexts.h" />
 		<Extensions>
 			<code_completion />

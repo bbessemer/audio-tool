@@ -6,11 +6,17 @@
 #define slGetReqt(void) slGetExitReq()
 #endif
 
+// Extension Manager
+void slxAddHook (void (*hook) ());
+void slxRemoveHook (void (*hook) ());
+void slxRunHooks ();
+
 // FPS Counter
 void slxEnableFpsCounter (int toggle_key = 0, bool sticky = true);
 void slxDisableFpsCounter ();
 void slxToggleFpsCounter ();
 void slxDestroyFpsCounter ();
+void slxCountFps ();
 slScalar slxGetFps ();
 
 #endif

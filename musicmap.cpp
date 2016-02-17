@@ -95,6 +95,12 @@ void DrawGrid (SDL_Window* window = NULL, SDL_Renderer* renderer = NULL)
 	};
 };
 
+void DrawBackground (SDL_Window* window, SDL_Renderer* renderer)
+{
+	slSetDrawColor(BACKGROUND_COLOR);
+	SDL_RenderFillRect(renderer,NULL);
+};
+
 Note** Notes = NULL;
 slBU NoteCount = 0;
 
@@ -132,7 +138,7 @@ void RepositionNotes ()
 		Note* note = *(Notes + cur);
 		note->box->w = BEAT_WIDTH * note->duration;
 		note->box->x = roll_left + (note->start * BEAT_WIDTH);
-		note->box->y = ROLL_TOP + (note->channel * CHANNEL_HEIGHT);
+		note->box->y = ROLL_TOP + (ROLL_HEIGHT - ((note->channel + 1) * CHANNEL_HEIGHT));
 	};
 };
 void RecalculateNotePitch (Note* note)
@@ -152,7 +158,7 @@ void NewNoteAtClickPoint ()
 	// It's not out of bounds, so figure out where it goes.
 	else
   {
-    slBU channel = (mousey - ROLL_TOP) / CHANNEL_HEIGHT;
+    slBU channel = (ROLL_HEIGHT - (mousey - ROLL_TOP)) / CHANNEL_HEIGHT;
     slBU start = (mousex - roll_left) / BEAT_WIDTH;
     Note* note = SpawnNote();
     note->start = start;
@@ -168,6 +174,7 @@ void DespawnNote (Note* todespawn)
 	free(todespawn);
 };
 Note* GrabbedNote = NULL;
+//slScalar DragOffset;
 void GrabNote ()
 {
 	slScalar mousex,mousey;
@@ -178,6 +185,7 @@ void GrabNote ()
 		if (slPointOnBox(note->box,mousex,mousey))
 		{
 			GrabbedNote = note;
+			//DragOffset = mousex - note->box->x;
 			return;
 		};
 	};
@@ -190,8 +198,9 @@ void ReleaseNote ()
 	{
 		slScalar mousex,mousey;
 		slGetMouse(&mousex,&mousey);
-		slScalar channel = ((mousey - ROLL_TOP) / ROLL_HEIGHT) * CHANNELS;
-		slScalar beat = ((mousex - GetRollLeft()) / ROLL_WIDTH) * BEATS_PER_MEASURE;
+		slScalar channel = (ROLL_HEIGHT - (mousey - ROLL_TOP)) / CHANNEL_HEIGHT;
+		slScalar beat = (((mousex - GrabbedNote->box->w / 2) - GetRollLeft()) / ROLL_WIDTH) * BEATS_PER_MEASURE;
+		beat = slRound(beat * 2) / 2.f;
 		if (channel < 0 || beat < 0 || channel >= CHANNELS || beat >= BEATS_PER_MEASURE * MeasureCount)
 		{
 			// Remove the note. It's been dragged into the margins.

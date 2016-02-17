@@ -13,12 +13,14 @@
 #define _16TH      24
 #define _32ND      12
 
+#define BACKGROUND_COLOR {255,255,255,255}
+
 #define CHANNELS (7*OCTAVES+1)
 #define ROLL_HEIGHT ((OCTAVES > 2) ? 0.7 : 0.3*OCTAVES)
 #define ROLL_WIDTH 0.3
-#define GRID_COLOR {191,191,191,255}
+#define GRID_COLOR {0,0,0,255}
 #define MEASURE_SEPARATOR_COLOR {255,0,255,255}
-#define MINIMEASURE_SEPARATOR_COLOR {223,223,0,255}
+#define MINIMEASURE_SEPARATOR_COLOR {255,255,0,255}
 
 #define BLACK   {0,   0,   0,   255}
 #define WHITE   {255, 255, 255, 255}
@@ -29,6 +31,7 @@
 #define BLUE    {0,   0,   255, 255}
 #define PURPLE  {127, 0,   127, 255}
 #define MAGENTA {255, 0,   255, 255}
+#define GREY  {127, 127,   127, 255}
 
 struct Note
 {
@@ -46,6 +49,7 @@ struct Note
 Note* SpawnNote ();
 void RepositionNotes ();
 void DrawGrid (SDL_Window*, SDL_Renderer*);
+void DrawBackground (SDL_Window*, SDL_Renderer*);
 slBU GetMeasureCount ();
 void InsertMeasure (slBU where);
 void RemoveMeasure (slBU where);

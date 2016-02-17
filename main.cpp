@@ -93,7 +93,7 @@ void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 
 int main ()
 {
-	slInit();
+	slInit("Slice Music Maker", "app-icon.png");
 
 	// UI
 	PlayToggleButton = slCreateBox(slLoadTexture(PLAY_BUTTON_IMGPATH));
@@ -104,6 +104,7 @@ int main ()
 	LoopToggleButton->onclick = ToggleLooping;
 
 	// Initialization
+	slSetCustomDrawStage_Back(DrawBackground);
 	slSetCustomDrawStage_Middle(DrawGrid);
 	slOpenAudio();
 	slSetCustomMixStage(Mix);
@@ -129,6 +130,7 @@ int main ()
 	slGetKeyBind("V Chord", SDLK_5)->onpress = EditChordKeyBind;
 	slGetKeyBind("VI Chord", SDLK_6)->onpress = EditChordKeyBind;
 	slGetKeyBind("VII Chord", SDLK_7)->onpress = EditChordKeyBind;
+	slGetKeyBind("Remove Chord", SDLK_DELETE)->onpress = RemoveChordKeyBind;
 
 	// Loading
 	LoadAllInstruments();
@@ -140,6 +142,7 @@ int main ()
 		RepositionNotes();
 		RepositionChords();
 		UpdateGrabbedNote();
+		slxRunHooks();
 		slCycle();
 	};
 
