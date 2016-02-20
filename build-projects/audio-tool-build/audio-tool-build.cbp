@@ -11,19 +11,12 @@
 				<Option working_dir="../.." />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gcc_with_slice" />
+				<Option compiler="gcc_with_slice_windows" />
 				<Option use_console_runner="0" />
-				<Option projectLinkerOptionsRelation="1" />
-				<Option projectIncludeDirsRelation="1" />
+				<Option projectCompilerOptionsRelation="-1" />
+				<Option projectLinkerOptionsRelation="-1" />
+				<Option projectIncludeDirsRelation="-1" />
 				<Option projectLibDirsRelation="-1" />
-				<Compiler>
-					<Add option="-fpermissive" />
-					<Add option="-m32" />
-					<Add directory="D:/Development/include" />
-				</Compiler>
-				<Linker>
-					<Add directory="D:/Development/lib" />
-				</Linker>
 				<MakeCommands>
 					<Build command="" />
 					<CompileFile command="" />

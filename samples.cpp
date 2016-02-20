@@ -10,7 +10,7 @@ void LoadInstrument (char* name, char* from)
 		// a sound needs to reference the source
 		// otherwise the engine will GC the source
 		slSound* container = slCreateSound(src);
-		container->playing = false; // don't play, but also...
+		container->playing = false; // don't play (yet)
 		container->destroy = false; // don't GC when not playing
 		Instruments = realloc(Instruments,sizeof(Instrument) * (InstrumentCount + 1));
 		Instrument* inst = Instruments + InstrumentCount;

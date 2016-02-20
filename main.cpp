@@ -1,4 +1,5 @@
 #include <slice.h>
+#include <sliceopts.h>
 
 //#include "interface.h"
 //#include "mixer/mixer.h"
@@ -94,6 +95,7 @@ void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 int main ()
 {
 	slInit("Slice Music Maker", "app-icon.png");
+	opInit();
 
 	// UI
 	PlayToggleButton = slCreateBox(slLoadTexture(PLAY_BUTTON_IMGPATH));
@@ -149,5 +151,7 @@ int main ()
 	// Cleanup
 	slDestroyBox(PlayToggleButton);
 	slDestroyBox(LoopToggleButton);
+	opQuit();
 	slQuit();
+	return 0;
 };

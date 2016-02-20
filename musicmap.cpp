@@ -6,8 +6,8 @@
 #include "samples.h"
 
 slScalar MajorScaleTuning[8] = {1., 9./8., 5./4., 4./3., 3./2., 5./3., 15./8.};
-slScalar Aug = 25/24;
-slScalar Dim = 24/25;
+slScalar Aug = 25./24.;
+slScalar Dim = 24./25.;
 int KeyNote = 61;
 
 int OCTAVES = 2;
@@ -130,22 +130,34 @@ Note* SpawnNote ()
 	return out;
 };
 
+Note* SpawnHiddenNote ()
+{
+	Note* out = (Note *) malloc(sizeof(Note));
+	out->box = NULL;
+	slAddItemToList((void ***)&Notes, (slBU *)&NoteCount, (void *)out);
+	return out;
+};
+
 void RepositionNotes ()
 {
 	slScalar roll_left = GetRollLeft();
 	for (slBU cur = 0; cur < NoteCount; cur++)
 	{
 		Note* note = *(Notes + cur);
-		note->box->w = BEAT_WIDTH * note->duration;
-		note->box->x = roll_left + (note->start * BEAT_WIDTH);
-		note->box->y = ROLL_TOP + (ROLL_HEIGHT - ((note->channel + 1) * CHANNEL_HEIGHT));
+		if (note->box)
+    {
+      note->box->w = BEAT_WIDTH * note->duration;
+      note->box->x = roll_left + (note->start * BEAT_WIDTH);
+      note->box->y = ROLL_TOP + (ROLL_HEIGHT - ((note->channel + 1) * CHANNEL_HEIGHT));
+    }
 	};
 };
-void RecalculateNotePitch (Note* note)
+void RecalculateNotePitch (Note* note, slBS scale = MAJOR)
 {
-	note->box->backcolor = GetNoteColor((note->channel) % 7);
-	note->pitch = GetPitch(KeyNote)*MajorScaleTuning[note->channel % 7]*pow(2., ((int)note->channel/7));
-	note->pitch *= pow(Aug, 0); // TODO: replace this zero
+  if (note->box)
+    note->box->backcolor = GetNoteColor((note->channel) % 7);
+	note->pitch = GetPitch(KeyNote)*MajorScaleTuning[(note->channel + scale) % 7]*pow(2., ((int)note->channel/7));
+	note->pitch *= pow(Aug, note->accidental);
 };
 void NewNoteAtClickPoint ()
 {
@@ -163,6 +175,7 @@ void NewNoteAtClickPoint ()
     Note* note = SpawnNote();
     note->start = start;
     note->channel = channel;
+    note->accidental = 0;
     note->duration = NoteLength;
     RecalculateNotePitch(note);
   }
@@ -182,12 +195,15 @@ void GrabNote ()
 	for (slBU cur = 0; cur < NoteCount; cur++)
 	{
 		Note* note = *(Notes + cur);
-		if (slPointOnBox(note->box,mousex,mousey))
-		{
-			GrabbedNote = note;
-			//DragOffset = mousex - note->box->x;
-			return;
-		};
+		if (note->box)
+    {
+      if (slPointOnBox(note->box,mousex,mousey))
+      {
+        GrabbedNote = note;
+        //DragOffset = mousex - note->box->x;
+        return;
+      };
+    }
 	};
 	// Will only be reached if no note is there to be dragged.
 	NewNoteAtClickPoint();

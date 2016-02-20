@@ -1,10 +1,29 @@
 #pragma once
 #include <slice.h>
-//#include "chords.h"
 
 #define NOTE(midi) (midi % 12)
 #define OCTAVE(midi) ((int)midi/12 - 1)
 #define MIDI(note,octave) (((octave + 1) * 12) + note)
+
+// Scale modes
+#define MAJOR 0
+#define DORIAN 1
+#define PHRYGIAN 2
+#define LYDIAN 3
+#define MIXOLYDIAN 4
+#define MINOR 5
+#define LOCRIAN 6
+#define HARMONIC 7
+
+// Interval qualifications
+#define PERFECT 0
+#define AUGMENTED 1
+#define DIMINISHED -1
+
+#define NO_ADDITIONS 0x00
+#define ADD_SECOND  0x02
+#define ADD_FOURTH  0x08
+#define ADD_SEVENTH 0x40
 
 #define _WHOLE     384
 #define _HALF      192
@@ -37,6 +56,7 @@ struct Note
 {
 	slScalar pitch;
 	slBS channel;
+	slBS accidental;
 	slScalar start,duration;
 	slBox* box;
 	// TO DO
@@ -47,6 +67,9 @@ struct Note
 };
 
 Note* SpawnNote ();
+Note* SpawnHiddenNote ();
+void DespawnNote (Note* todespawn);
+void RecalculateNotePitch(Note* note, slBS scale = MAJOR);
 void RepositionNotes ();
 void DrawGrid (SDL_Window*, SDL_Renderer*);
 void DrawBackground (SDL_Window*, SDL_Renderer*);

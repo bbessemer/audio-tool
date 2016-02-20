@@ -93,15 +93,15 @@
 	<slice.h>
 	"samples.h"
 
-1455582184 source:e:\audio-tool\chords.cpp
+1456000332 source:e:\audio-tool\chords.cpp
 	<string.h>
 	"chords.h"
 	"util.h"
 
-1455581938 e:\audio-tool\chords.h
+1455994216 e:\audio-tool\chords.h
 	"musicmap.h"
 
-1455579616 e:\audio-tool\musicmap.h
+1455995508 e:\audio-tool\musicmap.h
 	<slice.h>
 
 1455570415 d:\development\include\slice.h
@@ -448,8 +448,9 @@
 
 1455552426 e:\audio-tool\util.h
 
-1455588706 source:e:\audio-tool\main.cpp
+1455986454 source:e:\audio-tool\main.cpp
 	<slice.h>
+	<sliceopts.h>
 	"musicmap.h"
 	"chords.h"
 	"samples.h"
@@ -457,19 +458,19 @@
 
 1455552426 e:\audio-tool\samples.h
 
-1455578318 source:e:\audio-tool\musicmap.cpp
+1456000626 source:e:\audio-tool\musicmap.cpp
 	<stdlib.h>
 	"musicmap.h"
 	"chords.h"
 	"samples.h"
 
-1455582526 source:e:\audio-tool\samples.cpp
+1455991942 source:e:\audio-tool\samples.cpp
 	<slice.h>
 	"samples.h"
 
-1455588418 e:\audio-tool\sliceexts.h
+1455635402 e:\audio-tool\sliceexts.h
 
-1455588956 source:e:\audio-tool\fpscounter.cpp
+1455659082 source:e:\audio-tool\fpscounter.cpp
 	<slice.h>
 	"sliceexts.h"
 
@@ -512,6 +513,10 @@
 	"samples.h"
 
 1455657754 source:g:\audio-tool\sliceexts.cpp
+	<slice.h>
+	"sliceexts.h"
+
+1455657754 source:e:\audio-tool\sliceexts.cpp
 	<slice.h>
 	"sliceexts.h"
 
