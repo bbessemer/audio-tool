@@ -86,20 +86,20 @@ void DrawGrid (SDL_Window* window = NULL, SDL_Renderer* renderer = NULL)
 		else if (beat % BEATS_PER_MEASURE) slSetDrawColor(MINIMEASURE_SEPARATOR_COLOR);
 		else slSetDrawColor(MEASURE_SEPARATOR_COLOR);
 		slDrawScreenLine(x,ROLL_TOP,x,roll_bottom);
-	};
+	}
 	slSetDrawColor(GRID_COLOR);
 	for (slBU chan = 0; chan <= CHANNELS; chan++)
 	{
 		slScalar y = ROLL_TOP + (chan * CHANNEL_HEIGHT);
 		slDrawScreenLine(roll_left,y,roll_right,y);
-	};
-};
+	}
+}
 
 void DrawBackground (SDL_Window* window, SDL_Renderer* renderer)
 {
 	slSetDrawColor(BACKGROUND_COLOR);
 	SDL_RenderFillRect(renderer,NULL);
-};
+}
 
 Note** Notes = NULL;
 slBU NoteCount = 0;
@@ -116,8 +116,8 @@ SDL_Color GetNoteColor (int relative)
     case 5: return PURPLE;
     case 6: return MAGENTA;
     default: return WHITE;
-  };
-};
+  }
+}
 
 Note* SpawnNote ()
 {
@@ -128,7 +128,7 @@ Note* SpawnNote ()
 	out->box->backcolor = WHITE;
 	slAddItemToList((void ***)&Notes, (slBU *)&NoteCount, (void *)out);
 	return out;
-};
+}
 
 Note* SpawnHiddenNote ()
 {
@@ -136,7 +136,7 @@ Note* SpawnHiddenNote ()
 	out->box = NULL;
 	slAddItemToList((void ***)&Notes, (slBU *)&NoteCount, (void *)out);
 	return out;
-};
+}
 
 void RepositionNotes ()
 {
@@ -150,15 +150,15 @@ void RepositionNotes ()
       note->box->x = roll_left + (note->start * BEAT_WIDTH);
       note->box->y = ROLL_TOP + (ROLL_HEIGHT - ((note->channel + 1) * CHANNEL_HEIGHT));
     }
-	};
-};
+	}
+}
 void RecalculateNotePitch (Note* note, slBS scale = MAJOR)
 {
   if (note->box)
     note->box->backcolor = GetNoteColor((note->channel) % 7);
 	note->pitch = GetPitch(KeyNote)*MajorScaleTuning[(note->channel + scale) % 7]*pow(2., ((int)note->channel/7));
 	note->pitch *= pow(Aug, note->accidental);
-};
+}
 void NewNoteAtClickPoint ()
 {
 	slScalar mousex, mousey;
@@ -179,13 +179,13 @@ void NewNoteAtClickPoint ()
     note->duration = NoteLength;
     RecalculateNotePitch(note);
   }
-};
+}
 void DespawnNote (Note* todespawn)
 {
 	slRemoveItemFromList((void ***)&Notes,&NoteCount,todespawn);
 	slDestroyBox(todespawn->box);
 	free(todespawn);
-};
+}
 Note* GrabbedNote = NULL;
 //slScalar DragOffset;
 void GrabNote ()
@@ -202,12 +202,12 @@ void GrabNote ()
         GrabbedNote = note;
         //DragOffset = mousex - note->box->x;
         return;
-      };
+      }
     }
-	};
+	}
 	// Will only be reached if no note is there to be dragged.
 	NewNoteAtClickPoint();
-};
+}
 void ReleaseNote ()
 {
 	if (GrabbedNote)
@@ -228,12 +228,12 @@ void ReleaseNote ()
 			GrabbedNote->channel = channel;
 			GrabbedNote->start = beat;
 			RecalculateNotePitch(GrabbedNote);
-		};
+		}
 		// Either remove the note or
 		// set its start and channel.
 		GrabbedNote = NULL;
-	};
-};
+	}
+}
 void UpdateGrabbedNote ()
 {
 	if (GrabbedNote)
@@ -241,12 +241,12 @@ void UpdateGrabbedNote ()
 		slGetMouse(&(GrabbedNote->box->x),&(GrabbedNote->box->y));
 		GrabbedNote->box->x -= GrabbedNote->box->w / 2;
 		GrabbedNote->box->y -= GrabbedNote->box->h / 2;
-	};
-};
+	}
+}
 slBU GetMeasureCount ()
 {
 	return MeasureCount;
-};
+}
 void InsertMeasure (slBU where)
 {
 	if (where < MeasureCount)
@@ -256,10 +256,10 @@ void InsertMeasure (slBU where)
 		{
 			Note* item = *(Notes + cur);
 			if (item->start > where * BEATS_PER_MEASURE) item->start += BEATS_PER_MEASURE;
-		};
-	};
+		}
+	}
 	MeasureCount++;
-};
+}
 void RemoveMeasure (slBU where)
 {
 	if (MeasureCount)
@@ -277,28 +277,28 @@ void RemoveMeasure (slBU where)
 			{
 				// Reposition notes after this measure.
 				item->start -= BEATS_PER_MEASURE;
-			};
-		};
+			}
+		}
 		MeasureCount--;
-	};
-};
+	}
+}
 float BeatsPerMinute = 120;
 slScalar GetSongPosition ()
 {
 	return SongPosition;
-};
+}
 void SetSongPosition (slScalar to)
 {
 	SongPosition = to;
-};
+}
 slScalar GetSongLength ()
 {
 	return MeasureCount * BEATS_PER_MEASURE;
-};
+}
 slScalar GetPitch (int midi_value)
 {
 	return 440 * powf(2,(midi_value - 69.) / 12);
-};
+}
 #define DEFAULT_NOTE_VOLUME 0.2
 float GetMixerSample (slScalar persample)
 {
@@ -311,9 +311,9 @@ float GetMixerSample (slScalar persample)
 		{
 			float pitch = note->pitch;
 			sample += GetInstrumentSample(0,pitch,SongPosition - note->start) * DEFAULT_NOTE_VOLUME;
-		};
-	};
+		}
+	}
 	// Advance the song.
 	SongPosition += persample * (BeatsPerMinute / 60) * (BEATS_PER_MINIMEASURE);
 	return sample;
-};
+}

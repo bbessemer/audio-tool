@@ -23,7 +23,7 @@ struct GridBox
 {
   slBox* box;
   int i, j;
-};
+}
 
 void ui_init ();
 bool tick ();

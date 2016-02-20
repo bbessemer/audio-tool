@@ -16,7 +16,7 @@ struct Chord
 	slBox* box;
 	bool selected;
   slScalar start, duration;
-};
+}
 Chord* MakeChord (slBS root, Sint8 minor, Sint8 fifth, Sint8 inversion, Uint8 added);
 void RecalculateChordNotes (Chord* chord);
 void RepositionChords ();

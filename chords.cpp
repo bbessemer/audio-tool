@@ -56,7 +56,7 @@ void DestroyChord (Chord* chord)
   }
   slRemoveItemFromList(&Chords,&ChordCount,chord);
   free(chord);
-};
+}
 
 void EditChordKeyBind (slKeyBind* kb)
 {
@@ -67,7 +67,7 @@ void EditChordKeyBind (slKeyBind* kb)
     int fifth = (new_root == 6) ? DIMINISHED : PERFECT;
     RemakeChord(SelectedChord, new_root, minor, fifth, 0, NO_ADDITIONS);
     RecalculateChordNotes(SelectedChord);
-  };
+  }
 }
 
 void RemoveChordKeyBind ()
@@ -78,7 +78,7 @@ void RemoveChordKeyBind ()
 char* GetRomanNumeral (slBS root, Sint8 minor, Sint8 fifth,
     Sint8 inversion, Uint8 added)
 {
-  const char sup0[4] = {0xE2, 0x81, 0xB0, 0};
+  //const char sup0[4] = {0xE2, 0x81, 0xB0, 0}
   char* base = malloc(10);
   if (minor)
   {
@@ -215,7 +215,7 @@ void NewChordAtClickPoint ()
     {
       DestroyChord(chord);
       break;
-    };
+    }
   }
 }
 
@@ -228,5 +228,5 @@ void RepositionChords ()
 		chord->box->w = GetBeatWidth() * chord->duration;
 		chord->box->x = roll_left + (chord->start * GetBeatWidth());
 		chord->box->y = CHORDS_TOP;
-	};
-};
+	}
+}

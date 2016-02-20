@@ -57,8 +57,8 @@ SDL_Color get_note_color (int relative)
     case 5: return PURPLE;
     case 6: return MAGENTA;
     default: return WHITE;
-  };
-};
+  }
+}
 
 void note_click ()
 {
@@ -132,8 +132,8 @@ void ui_quit ()
 		slRemoveItemFromList(&gridBoxes,&gridBoxCount,item);
 		slDestroyBox(item->box);
 		free(item);
-	};
-};
+	}
+}
 
 slBox* FakeNoteBox;
 Note* GrabbedNote = NULL;
@@ -143,15 +143,15 @@ GridBox* GetGridBoxAtPoint (slScalar x, slScalar y)
 	{
 		GridBox* gb = *(gridBoxes + cur);
 		if (slPointOnBox(gb->box,mousex,mousey)) return gb;
-	};
+	}
 	return NULL;
-};
+}
 void GrabNote ()
 {
 	slScalar mousex,mousey;
 	slGetMouse(&mousex,&mousey);
 	GrabbedNote = GetGridBoxAtPoint(mousex,mousey);
-};
+}
 void UnGrabBox ()
 {
 	slScalar mousex,mousey;
@@ -161,9 +161,9 @@ void UnGrabBox ()
 	{
 
 
-	};
+	}
 	GrabbedNote = NULL;
-};
+}
 
 bool tick ()
 {

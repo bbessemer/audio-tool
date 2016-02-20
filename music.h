@@ -97,7 +97,7 @@ struct Note
   int rel_pitch;
   int start;
   int duration;
-};
+}
 
 float pitch (int m, float bend = 0.0, float tuning = 440.0);
 void note_click ();

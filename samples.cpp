@@ -17,28 +17,28 @@ void LoadInstrument (char* name, char* from)
 		InstrumentCount++;
 		inst->name = name;
 		inst->sound = container;
-	};
-};
+	}
+}
 void LoadAllInstruments ()
 {
 	LoadInstrument("Piano","samples/piano.swag");
-};
+}
 char* GetInstrumentName (slBU inst_id)
 {
 	if (inst_id >= InstrumentCount) return NULL;
 	else return (Instruments + inst_id)->name;
-};
+}
 slBU GetInstrumentID (char* name)
 {
 	slBU cur;
 	for (cur = 0; cur < InstrumentCount; cur++)
 		if (!strcmp((Instruments + cur)->name,name)) return cur;
 	return cur; // InstrumentCount + 1
-};
+}
 float GetSineSample (float freq, float pos)
 {
 	return sinf(pos * freq * M_PI);
-};
+}
 float GetInstrumentSample (slBU inst_id, float freq, float offset)
 {
 	if (inst_id >= InstrumentCount) return GetSineSample(freq,offset);
@@ -54,6 +54,6 @@ float GetInstrumentSample (slBU inst_id, float freq, float offset)
 			while (sampleoffset >= inst->sound->src->samplecount) sampleoffset -= inst->sound->src->samplecount;
 			if (inst->sound->src->samples_right) return (*(inst->sound->src->samples + sampleoffset) + *(inst->sound->src->samples_right + sampleoffset)) / 2;
 			else return *(inst->sound->src->samples + sampleoffset);
-		};
-	};
-};
+		}
+	}
+}

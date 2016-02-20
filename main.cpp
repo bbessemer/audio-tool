@@ -11,11 +11,11 @@
 void InsertMeasureAtEnd ()
 {
 	InsertMeasure(GetMeasureCount());
-};
+}
 void RemoveMeasureFromEnd ()
 {
 	RemoveMeasure(GetMeasureCount() - 1);
-};
+}
 bool ReachedEnd = false; // Set by mixer controller.
 
 // Toggles
@@ -33,12 +33,12 @@ void TogglePlaying ()
 	else ReachedEnd = false;
 	SongPlaying = !SongPlaying;
 	PlayToggleButton->texref = slLoadTexture(SongPlaying ? PAUSE_BUTTON_IMGPATH : PLAY_BUTTON_IMGPATH);
-};
+}
 void ToggleLooping ()
 {
 	LoopSong = !LoopSong;
 	LoopToggleButton->texref = slLoadTexture(LoopSong ? NOLOOP_BUTTON_IMGPATH : LOOP_BUTTON_IMGPATH);
-};
+}
 
 // Mixer Controller
 void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
@@ -50,7 +50,7 @@ void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 		float random = ((rand() % 1000) / 500.f) - 1.f;
 		*(buf + cur) = random;
 		if (stereo) *(buf + samples + cur) = random;
-	};
+	}
 	return;
 	*/
 
@@ -68,9 +68,9 @@ void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 				TogglePlaying();
 				SetSongPosition(GetSongLength());
 				ReachedEnd = true;
-			};
-		};
-	};
+			}
+		}
+	}
 	if (SongPlaying)
 	{
 		for (cur = 0; cur < samples; cur++)
@@ -83,14 +83,14 @@ void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 			// the right channel in stereo sound
 			// should have the same data as left.
 			if (stereo) *(buf + samples + cur) = value;
-		};
+		}
 	}
 	else
 	{
 		for (cur = 0; cur < samples; cur++) *(buf + cur) = 0;
 		if (stereo) for (cur = 0; cur < samples; cur++) *(buf + samples + cur) = 0;
-	};
-};
+	}
+}
 
 int main ()
 {
@@ -146,7 +146,7 @@ int main ()
 		UpdateGrabbedNote();
 		slxRunHooks();
 		slCycle();
-	};
+	}
 
 	// Cleanup
 	slDestroyBox(PlayToggleButton);
@@ -154,4 +154,4 @@ int main ()
 	opQuit();
 	slQuit();
 	return 0;
-};
+}
