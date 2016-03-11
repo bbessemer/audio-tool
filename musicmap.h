@@ -50,7 +50,7 @@
 #define BLUE    {0,   0,   255, 255}
 #define PURPLE  {127, 0,   127, 255}
 #define MAGENTA {255, 0,   255, 255}
-#define GREY  {127, 127,   127, 255}
+#define GREY    {127, 127, 127, 255}
 
 struct Note
 {
@@ -59,9 +59,9 @@ struct Note
 	slBS accidental;
 	slScalar start,duration;
 	slBox* box;
+	slBU instrument;
 	// TO DO
 	/*
-	Instrument** instrument;
 	slScalar volume;
 	*/
 };

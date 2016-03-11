@@ -10,6 +10,9 @@ Chord** Chords = NULL;
 slBU ChordCount = 0;
 Chord* SelectedChord = NULL;
 
+slBU BassInstrument = 0;
+slBU HarmonyInstrument = 0;
+
 void SelectChord (slBox* cbox)
 {
   if (SelectedChord) SelectedChord->box->bordercolor = WHITE;
@@ -187,6 +190,8 @@ void RecalculateChordNotes (Chord* chord)
     new_note->start = chord->start;
     new_note->duration = chord->duration;
     new_note->accidental = 0;
+    if (!i) new_note->instrument = BassInstrument;
+    else new_note->instrument = HarmonyInstrument;
     RecalculateNotePitch(new_note, chord->scale);
     chord->__notes[i] = new_note;
   }

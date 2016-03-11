@@ -1,7 +1,7 @@
 #include <slice.h>
 #include "sliceexts.h"
 
-#define HOOKSIZE (sizeof(void (*) ()))
+#define FPSIZE (sizeof(void (*) ()))
 #define INIT_LISTSIZE 10
 #define EXPAND_BY 2
 void (**SLX_Hooks) () = 0;
@@ -12,7 +12,7 @@ void slxAddHook (void (*hook) ())
 {
   if (!SLX_Hooks)
   {
-    SLX_Hooks = malloc(HOOKSIZE*INIT_LISTSIZE);
+    SLX_Hooks = malloc(FPSIZE*INIT_LISTSIZE);
   }
   int i;
   for (i = 0; i < hooks_len; i++)
@@ -25,7 +25,7 @@ void slxAddHook (void (*hook) ())
     }
     i++;
   }
-  void (**new_hooks) () = realloc(SLX_Hooks, (hooks_len+EXPAND_BY)*HOOKSIZE);
+  void (**new_hooks) () = realloc(SLX_Hooks, (hooks_len+EXPAND_BY)*FPSIZE);
   if (new_hooks)
   {
     SLX_Hooks = new_hooks;

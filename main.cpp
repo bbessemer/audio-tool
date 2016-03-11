@@ -1,11 +1,10 @@
 #include <slice.h>
 #include <sliceopts.h>
 
-//#include "interface.h"
-//#include "mixer/mixer.h"
 #include "musicmap.h"
 #include "chords.h"
 #include "samples.h"
+#include "interface.h"
 #include "sliceexts.h"
 
 void InsertMeasureAtEnd ()
@@ -43,20 +42,6 @@ void ToggleLooping ()
 // Mixer Controller
 void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 {
-	/*
-	/// NOISE GENERATOR (For Testing)
-	for (slBU cur = 0; cur < samples; cur++)
-	{
-		float random = ((rand() % 1000) / 500.f) - 1.f;
-		*(buf + cur) = random;
-		if (stereo) *(buf + samples + cur) = random;
-	}
-	return;
-	*/
-
-
-
-
 	slBU cur;
 	if (SongPlaying)
 	{
@@ -108,6 +93,7 @@ int main ()
 	// Initialization
 	slSetCustomDrawStage_Back(DrawBackground);
 	slSetCustomDrawStage_Middle(DrawGrid);
+	slSetCustomDrawStage_Front(DrawInterface);
 	slOpenAudio();
 	slSetCustomMixStage(Mix);
 
@@ -137,6 +123,7 @@ int main ()
 	// Loading
 	LoadAllInstruments();
 	slxEnableFpsCounter(SDLK_F3);
+  InsertMeasureAtEnd();
 
 	// Main Loop
 	while (!slGetReqt())

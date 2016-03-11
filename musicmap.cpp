@@ -21,6 +21,7 @@ slScalar BEAT_WIDTH = ROLL_WIDTH * (1. / BEATS_PER_MEASURE);
 slScalar ROLL_TOP = ((1 - ROLL_HEIGHT) / 2.) - 0.15;
 slScalar SongPosition = 0;
 slBU MeasureCount = 0;
+slBU MelodyInstrument = 0;
 
 int GetBeatsPerMeasure ()
 {
@@ -126,6 +127,7 @@ Note* SpawnNote ()
 	out->box->h = CHANNEL_HEIGHT;
 	out->box->bordercolor = BLACK;
 	out->box->backcolor = WHITE;
+	out->instrument = MelodyInstrument;
 	slAddItemToList((void ***)&Notes, (slBU *)&NoteCount, (void *)out);
 	return out;
 }
@@ -310,7 +312,8 @@ float GetMixerSample (slScalar persample)
 		if (note->start <= SongPosition && note->start + note->duration >= SongPosition)
 		{
 			float pitch = note->pitch;
-			sample += GetInstrumentSample(0,pitch,SongPosition - note->start) * DEFAULT_NOTE_VOLUME;
+			sample += GetInstrumentSample(note->instrument, pitch,
+        SongPosition - note->start) * DEFAULT_NOTE_VOLUME;
 		}
 	}
 	// Advance the song.
