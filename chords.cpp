@@ -10,8 +10,8 @@ Chord** Chords = NULL;
 slBU ChordCount = 0;
 Chord* SelectedChord = NULL;
 
-slBU BassInstrument = 0;
-slBU HarmonyInstrument = 0;
+slBU BassInstrument = 1;
+slBU HarmonyInstrument = 1;
 
 void SelectChord (slBox* cbox)
 {

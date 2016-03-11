@@ -2,7 +2,7 @@
 #include "samples.h"
 Instrument* Instruments = NULL;
 slBU InstrumentCount = 0;
-void LoadInstrument (char* name, char* from)
+void LoadInstrument (char* name, char* from, slBU refnote)
 {
 	slSoundSource* src = slLoadSoundSource(from);
 	if (src)
@@ -17,11 +17,13 @@ void LoadInstrument (char* name, char* from)
 		InstrumentCount++;
 		inst->name = name;
 		inst->sound = container;
+		inst->refnote = refnote;
 	}
 }
 void LoadAllInstruments ()
 {
-	LoadInstrument("Piano","samples/piano.swag");
+	LoadInstrument("Piano", "samples/piano.swag", 69);
+	LoadInstrument("Strings", "samples/strings.swag", 61);
 }
 char* GetInstrumentName (slBU inst_id)
 {
