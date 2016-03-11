@@ -64,7 +64,7 @@ struct Note
 	Instrument** instrument;
 	slScalar volume;
 	*/
-}
+};
 
 Note* SpawnNote ();
 Note* SpawnHiddenNote ();

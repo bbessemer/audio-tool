@@ -520,3 +520,46 @@
 	<slice.h>
 	"sliceexts.h"
 
+1457712272 source:d:\code\audio-tool\chords.cpp
+	<string.h>
+	"chords.h"
+	"util.h"
+
+1457712317 d:\code\audio-tool\chords.h
+	"musicmap.h"
+
+1457712324 d:\code\audio-tool\musicmap.h
+	<slice.h>
+
+1457712272 d:\code\audio-tool\util.h
+
+1457712272 source:d:\code\audio-tool\fpscounter.cpp
+	<slice.h>
+	"sliceexts.h"
+
+1457712272 d:\code\audio-tool\sliceexts.h
+
+1457712272 source:d:\code\audio-tool\main.cpp
+	<slice.h>
+	<sliceopts.h>
+	"musicmap.h"
+	"chords.h"
+	"samples.h"
+	"sliceexts.h"
+
+1457712333 d:\code\audio-tool\samples.h
+
+1457712272 source:d:\code\audio-tool\musicmap.cpp
+	<stdlib.h>
+	"musicmap.h"
+	"chords.h"
+	"samples.h"
+
+1457712272 source:d:\code\audio-tool\samples.cpp
+	<slice.h>
+	"samples.h"
+
+1457712272 source:d:\code\audio-tool\sliceexts.cpp
+	<slice.h>
+	"sliceexts.h"
+
