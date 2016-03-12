@@ -1,5 +1,7 @@
 #include <slice.h>
 #include "samples.h"
+#include "musicmap.h"
+
 Instrument* Instruments = NULL;
 slBU InstrumentCount = 0;
 void LoadInstrument (char* name, char* from, slBU refnote)
@@ -18,12 +20,13 @@ void LoadInstrument (char* name, char* from, slBU refnote)
 		inst->name = name;
 		inst->sound = container;
 		inst->refnote = refnote;
+		inst->refpitch = GetPitch(refnote);
 	}
 }
 void LoadAllInstruments ()
 {
-	LoadInstrument("Piano", "samples/piano.swag", 69);
-	LoadInstrument("Strings", "samples/strings.swag", 61);
+	LoadInstrument("Piano", "samples/piano.swag", 61);
+	LoadInstrument("Strings", "samples/strings.swag", 69);
 }
 char* GetInstrumentName (slBU inst_id)
 {
@@ -51,7 +54,7 @@ float GetInstrumentSample (slBU inst_id, float freq, float offset)
 		if (inst->sound->src->ready && inst->sound->src->samples)
 		{
 			//printf("%f %f %f\n",offset,freq,inst->sound->src->persecond);
-			slBU sampleoffset = slRound(offset * (freq / (440 * 4)) * inst->sound->src->persecond);
+			slBU sampleoffset = slRound(offset * (freq / (inst->refpitch * 4)) * inst->sound->src->persecond);
 			//printf("%lX\n",sampleoffset);
 			while (sampleoffset >= inst->sound->src->samplecount) sampleoffset -= inst->sound->src->samplecount;
 			if (inst->sound->src->samples_right) return (*(inst->sound->src->samples + sampleoffset) + *(inst->sound->src->samples_right + sampleoffset)) / 2;
