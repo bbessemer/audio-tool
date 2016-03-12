@@ -46,6 +46,8 @@
 		<Unit filename="../../chords.cpp" />
 		<Unit filename="../../chords.h" />
 		<Unit filename="../../fpscounter.cpp" />
+		<Unit filename="../../interface.cpp" />
+		<Unit filename="../../interface.h" />
 		<Unit filename="../../main.cpp" />
 		<Unit filename="../../musicmap.cpp" />
 		<Unit filename="../../musicmap.h" />
