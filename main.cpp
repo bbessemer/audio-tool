@@ -80,20 +80,21 @@ void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 int main ()
 {
 	slInit("Slice Music Maker", "app-icon.png");
-	opInit();
+	opInit(EnableOptionsMenu);
 
 	// UI
 	PlayToggleButton = slCreateBox(slLoadTexture(PLAY_BUTTON_IMGPATH));
 	slSetBoxDims(PlayToggleButton,0.42,0.87,0.06,0.06);
+	PlayToggleButton->z = 9;
 	PlayToggleButton->onclick = TogglePlaying;
 	LoopToggleButton = slCreateBox(slLoadTexture(LOOP_BUTTON_IMGPATH));
 	slSetBoxDims(LoopToggleButton,0.52,0.87,0.06,0.06);
+	LoopToggleButton->z = 9;
 	LoopToggleButton->onclick = ToggleLooping;
 
 	// Initialization
 	slSetCustomDrawStage_Back(DrawBackground);
 	slSetCustomDrawStage_Middle(DrawGrid);
-	slSetCustomDrawStage_Front(DrawInterface);
 	slOpenAudio();
 	slSetCustomMixStage(Mix);
 

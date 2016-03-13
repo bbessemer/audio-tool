@@ -1,6 +1,6 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
-void DrawInterface ();
+void EnableOptionsMenu (bool visible);
 
 #endif // INTERFACE_H

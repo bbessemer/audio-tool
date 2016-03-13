@@ -22,6 +22,12 @@ slScalar ROLL_TOP = ((1 - ROLL_HEIGHT) / 2.) - 0.15;
 slScalar SongPosition = 0;
 slBU MeasureCount = 0;
 slBU MelodyInstrument = 0;
+slScalar MasterVolume = 0.2;
+
+void SetMasterVolume (slScalar to)
+{
+  MasterVolume = to;
+}
 
 int GetBeatsPerMeasure ()
 {
@@ -313,7 +319,7 @@ float GetMixerSample (slScalar persample)
 		{
 			float pitch = note->pitch;
 			sample += GetInstrumentSample(note->instrument, pitch,
-        SongPosition - note->start) * DEFAULT_NOTE_VOLUME;
+        SongPosition - note->start) * MasterVolume;
 		}
 	}
 	// Advance the song.
