@@ -1,5 +1,6 @@
 #include "musicmap.h"
 #include "interface.h"
+#include "sliceopts.h"
 
 bool already_created = false;
 slBox* BackgroundBox;
@@ -23,11 +24,13 @@ void slxSetRelBoxDims (slBox* box, slBox* container,
 void OpenOptionsMenu (void)
 {
   EnableOptionsMenu(true);
+  opInformCustomVisi(true); // Tell sliceopts the menu is open!
 }
 
 void CloseOptionsMenu (void)
 {
   EnableOptionsMenu(false);
+  opInformCustomVisi(false); // Tell sliceopts the menu is closed!
 }
 
 void set_volslider (slSlider* sld)
