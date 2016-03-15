@@ -1,6 +1,6 @@
 #include "musicmap.h"
 #include "interface.h"
-#include "sliceopts.h"
+#include <sliceopts.h>
 
 bool already_created = false;
 slBox* BackgroundBox;
@@ -70,6 +70,20 @@ void create_volslider ()
   VolumeSlider->onchange = set_volslider;
 }
 
+void set_keyslider (slSlider* sld)
+{
+  slSetSliderValue(sld, slRound(sld->curvalue*12));
+}
+
+void create_keyslider ()
+{
+  slBox* behind = slCreateBox(slRenderText(GetNoteName(GetKeyNote(), 0)));
+  slBox* mark = slCreateBox();
+  slxSetRelBoxDims(behind, BackgroundBox, 0.2, 0.3, 0.6, 0.1);
+  behind->bordercolor = WHITE;
+  behind->backcolor = {64, 64, 64, 255};
+}
+
 void EnableOptionsMenu (bool visible)
 {
   if (visible)
@@ -91,6 +105,7 @@ void EnableOptionsMenu (bool visible)
       CloseMenuBox->onclick = CloseOptionsMenu;
 
       create_volslider();
+      create_keyslider();
 
       already_created = true;
     }

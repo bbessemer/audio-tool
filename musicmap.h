@@ -32,6 +32,10 @@
 #define _16TH      24
 #define _32ND      12
 
+#define USE_SHARPS 1
+#define USE_FLATS -1
+#define USE_DEFAULT 0
+
 #define BACKGROUND_COLOR {255,255,255,255}
 
 #define CHANNELS (7*OCTAVES+1)
@@ -93,3 +97,6 @@ slScalar GetNoteLength ();
 slScalar GetBeatWidth ();
 SDL_Color GetNoteColor (int);
 void SetMasterVolume (slScalar);
+char* GetNoteName (int, int);
+int GetKeyNote ();
+void SetKeyNote (int);
