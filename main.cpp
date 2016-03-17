@@ -6,6 +6,7 @@
 #include "samples.h"
 #include "interface.h"
 #include "sliceexts.h"
+#include "note-volume.h"
 
 void InsertMeasureAtEnd ()
 {
@@ -97,6 +98,7 @@ int main ()
 	slSetCustomDrawStage_Middle(DrawGrid);
 	slOpenAudio();
 	slSetCustomMixStage(Mix);
+	VolAdjInit();
 
 	// Keybindings
 	slGetKeyBind("Append Measure to End",SDLK_m)->onpress = InsertMeasureAtEnd;
@@ -124,7 +126,7 @@ int main ()
 	// Loading
 	LoadAllInstruments();
 	slxEnableFpsCounter(SDLK_F3);
-  InsertMeasureAtEnd();
+    InsertMeasureAtEnd();
 
 	// Main Loop
 	while (!slGetReqt())
@@ -133,10 +135,12 @@ int main ()
 		RepositionChords();
 		UpdateGrabbedNote();
 		slxRunHooks();
+		VolAdjStep();
 		slCycle();
 	}
 
 	// Cleanup
+	VolAdjQuit();
 	slDestroyBox(PlayToggleButton);
 	slDestroyBox(LoopToggleButton);
 	opQuit();

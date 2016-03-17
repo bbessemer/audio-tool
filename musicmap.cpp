@@ -196,7 +196,9 @@ Note* SpawnNote ()
 	out->box->h = CHANNEL_HEIGHT;
 	out->box->bordercolor = BLACK;
 	out->box->backcolor = WHITE;
+	out->box->z = 240;
 	out->instrument = MelodyInstrument;
+	out->volume = 1;
 	slAddItemToList((void ***)&Notes, (slBU *)&NoteCount, (void *)out);
 	return out;
 }
@@ -382,7 +384,7 @@ float GetMixerSample (slScalar persample)
 		{
 			float pitch = note->pitch;
 			sample += GetInstrumentSample(note->instrument, pitch,
-        SongPosition - note->start) * MasterVolume;
+        SongPosition - note->start) * MasterVolume * note->volume;
 		}
 	}
 	// Advance the song.
