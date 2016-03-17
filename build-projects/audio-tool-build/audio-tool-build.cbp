@@ -11,7 +11,7 @@
 				<Option working_dir="../.." />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gcc_with_slice" />
+				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
 				<Option projectCompilerOptionsRelation="-1" />
 				<Option projectLinkerOptionsRelation="-1" />
@@ -51,8 +51,11 @@
 		<Unit filename="../../main.cpp" />
 		<Unit filename="../../musicmap.cpp" />
 		<Unit filename="../../musicmap.h" />
+		<Unit filename="../../note-volume.cpp" />
+		<Unit filename="../../note-volume.h" />
 		<Unit filename="../../samples.cpp" />
 		<Unit filename="../../samples.h" />
+		<Unit filename="../../save.cpp" />
 		<Unit filename="../../sliceexts.cpp" />
 		<Unit filename="../../sliceexts.h" />
 		<Extensions>

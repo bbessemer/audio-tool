@@ -1,11 +1,17 @@
 # depslib dependency file v1.0
-1448535306 source:c:\collaboratives\audio-tool\main.cpp
+1458233316 source:c:\collaboratives\audio-tool\main.cpp
 	<slice.h>
+	<sliceopts.h>
 	"musicmap.h"
+	"chords.h"
+	"samples.h"
+	"interface.h"
+	"sliceexts.h"
+	"note-volume.h"
 
 1453675971 h"
 
-1448535306 c:\collaboratives\audio-tool\musicmap.h
+1458221775 c:\collaboratives\audio-tool\musicmap.h
 	<slice.h>
 
 1452891204 
@@ -593,4 +599,52 @@
 1458223322 source:d:\code\tsa\audio-tool\sliceexts.cpp
 	<slice.h>
 	"sliceexts.h"
+
+1458187285 source:c:\collaboratives\audio-tool\chords.cpp
+	<string.h>
+	"chords.h"
+	"util.h"
+
+1458187285 c:\collaboratives\audio-tool\chords.h
+	"musicmap.h"
+
+1458187286 c:\collaboratives\audio-tool\util.h
+
+1458187285 source:c:\collaboratives\audio-tool\fpscounter.cpp
+	<slice.h>
+	"sliceexts.h"
+
+1458187286 c:\collaboratives\audio-tool\sliceexts.h
+
+1458187285 c:\collaboratives\audio-tool\samples.h
+
+1458187285 c:\collaboratives\audio-tool\interface.h
+
+1458227456 c:\collaboratives\audio-tool\note-volume.h
+
+1458232185 source:c:\collaboratives\audio-tool\note-volume.cpp
+	"musicmap.h"
+
+1458224181 source:c:\collaboratives\audio-tool\save.cpp
+	"stdio.h"
+	"musicmap.h"
+
+1458187286 source:c:\collaboratives\audio-tool\sliceexts.cpp
+	<slice.h>
+	"sliceexts.h"
+
+1458233577 source:c:\collaboratives\audio-tool\interface.cpp
+	"musicmap.h"
+	"interface.h"
+	<sliceopts.h>
+
+1458233577 source:c:\collaboratives\audio-tool\musicmap.cpp
+	"musicmap.h"
+	"chords.h"
+	"samples.h"
+
+1458233577 source:c:\collaboratives\audio-tool\samples.cpp
+	<slice.h>
+	"samples.h"
+	"musicmap.h"
 
