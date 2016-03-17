@@ -7,11 +7,11 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="debug" prefix_auto="1" extension_auto="1" />
+				<Option output="../../audio-tool" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../.." />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gcc_with_slice_windows" />
+				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
 				<Option projectCompilerOptionsRelation="-1" />
 				<Option projectLinkerOptionsRelation="-1" />
@@ -27,7 +27,7 @@
 				</MakeCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="release" prefix_auto="1" extension_auto="1" />
+				<Option output="../../audio-tool" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../.." />
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
