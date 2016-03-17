@@ -5,3 +5,4 @@ settings.txt
 *.layout
 *.cbp
 *.depend
+*.cscope_file_list
