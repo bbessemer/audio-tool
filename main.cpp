@@ -79,7 +79,7 @@ void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 
 int main ()
 {
-	slInit("Slice Music Maker", "app-icon.png");
+	slInit("EasyAudio", "app-icon.png");
 	opInit(EnableOptionsMenu);
 
 	// UI
