@@ -8,7 +8,7 @@
 slScalar MajorScaleTuning[8] = {1., 9./8., 5./4., 4./3., 3./2., 5./3., 15./8.};
 slScalar Aug = 25./24.;
 slScalar Dim = 24./25.;
-int KeyNote = 61;
+int KeyNote = 60;
 
 int OCTAVES = 2;
 int BEATS_PER_MEASURE = 8;
@@ -24,9 +24,72 @@ slBU MeasureCount = 0;
 slBU MelodyInstrument = 0;
 slScalar MasterVolume = 0.2;
 
+char* GetNoteName (int midival, int accmode)
+{
+  if (midival > 11) midival = NOTE(midival);
+  switch (midival)
+  {
+    case 0: return "C";
+    case 2: return "D";
+    case 4: return "E";
+    case 5: return "F";
+    case 7: return "G";
+    case 9: return "A";
+    case 11: return "B";
+    default:;
+  }
+  if (accmode == USE_FLATS)
+  {
+    switch (midival)
+    {
+      case 1: return "D♭";
+      case 3: return "E♭";
+      case 6: return "G♭";
+      case 8: return "A♭";
+      case 10: return "B♭";
+      default:;
+    }
+  }
+  else if (accmode == USE_SHARPS)
+  {
+    switch (midival)
+    {
+      case 1: return "C♯";
+      case 3: return "D♯";
+      case 6: return "F♯";
+      case 8: return "G♯";
+      case 10: return "A♯";
+      default:;
+    }
+  }
+  else
+  {
+    switch (midival)
+    {
+      case 1: return "C♯";
+      case 3: return "E♭";
+      case 6: return "F♯";
+      case 8: return "A♭";
+      case 10: return "B♭";
+      default:;
+    }
+  }
+  return "";
+}
+
 void SetMasterVolume (slScalar to)
 {
   MasterVolume = to;
+}
+
+int GetKeyNote ()
+{
+  return KeyNote;
+}
+
+void SetKeyNote (int to)
+{
+  KeyNote = to;
 }
 
 int GetBeatsPerMeasure ()
