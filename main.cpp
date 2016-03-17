@@ -78,6 +78,12 @@ void Mix (float* buf, slBU samples, bool stereo, slScalar persample)
 	}
 }
 
+slBox* ControlsInfoBox;
+void OnControlsPress ()
+{
+    ControlsInfoBox->visible = !ControlsInfoBox->visible;
+}
+
 int main ()
 {
 	slInit("EasyAudio", "app-icon.png");
@@ -92,6 +98,9 @@ int main ()
 	slSetBoxDims(LoopToggleButton,0.52,0.87,0.06,0.06);
 	LoopToggleButton->z = 9;
 	LoopToggleButton->onclick = ToggleLooping;
+	ControlsInfoBox = slCreateBox(slLoadTexture("interface/help-card.png"));
+	slSetBoxDims(ControlsInfoBox,0.05,0.05,0.9,0.9);
+	ControlsInfoBox->z = 18;
 
 	// Initialization
 	slSetCustomDrawStage_Back(DrawBackground);
@@ -101,6 +110,7 @@ int main ()
 	VolAdjInit();
 
 	// Keybindings
+	slGetKeyBind("Show/Hide Controls Info",SDLK_c)->onpress = OnControlsPress;
 	slGetKeyBind("Append Measure to End",SDLK_m)->onpress = InsertMeasureAtEnd;
 	slGetKeyBind("Chop Measure from End",SDLK_n)->onpress = RemoveMeasureFromEnd;
 	slKeyBind* dragbind = slGetKeyBind("Drag Note",0,SDL_BUTTON(SDL_BUTTON_LEFT));
