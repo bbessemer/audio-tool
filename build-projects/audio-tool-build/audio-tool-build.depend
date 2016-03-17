@@ -35,31 +35,36 @@
 1452609740 c:\users\bmb06\code\tsa\audio-tool\chords.h
 	"musicmap.h"
 
-1448829404 source:d:\code\tsa\audio-tool\main.cpp
+1458223322 source:d:\code\tsa\audio-tool\main.cpp
 	<slice.h>
+	<sliceopts.h>
 	"musicmap.h"
+	"chords.h"
 	"samples.h"
+	"interface.h"
+	"sliceexts.h"
 
-1452609128 d:\code\tsa\audio-tool\musicmap.h
+1458223322 d:\code\tsa\audio-tool\musicmap.h
 	<slice.h>
 
-1448830643 d:\code\tsa\audio-tool\samples.h
+1458223322 d:\code\tsa\audio-tool\samples.h
 
-1448831319 source:d:\code\tsa\audio-tool\samples.cpp
+1458226469 source:d:\code\tsa\audio-tool\samples.cpp
 	<slice.h>
 	"samples.h"
+	"musicmap.h"
 
-1452891204 source:d:\code\tsa\audio-tool\chords.cpp
+1458223322 source:d:\code\tsa\audio-tool\chords.cpp
+	<string.h>
 	"chords.h"
 	"util.h"
 
-1453675971 d:\code\tsa\audio-tool\chords.h
+1458223322 d:\code\tsa\audio-tool\chords.h
 	"musicmap.h"
 
-1452611528 d:\code\tsa\audio-tool\util.h
+1452615128 d:\code\tsa\audio-tool\util.h
 
-1454617522 source:d:\code\tsa\audio-tool\musicmap.cpp
-	<stdlib.h>
+1458234855 source:d:\code\tsa\audio-tool\musicmap.cpp
 	"musicmap.h"
 	"chords.h"
 	"samples.h"
@@ -571,4 +576,21 @@
 	"sliceopts.h"
 
 1457825940 d:\code\audio-tool\interface.h
+
+1458223322 source:d:\code\tsa\audio-tool\fpscounter.cpp
+	<slice.h>
+	"sliceexts.h"
+
+1458223322 d:\code\tsa\audio-tool\sliceexts.h
+
+1458234973 source:d:\code\tsa\audio-tool\interface.cpp
+	"musicmap.h"
+	"interface.h"
+	<sliceopts.h>
+
+1458223322 d:\code\tsa\audio-tool\interface.h
+
+1458223322 source:d:\code\tsa\audio-tool\sliceexts.cpp
+	<slice.h>
+	"sliceexts.h"
 

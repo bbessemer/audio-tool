@@ -6,6 +6,7 @@ bool already_created = false;
 slBox* BackgroundBox;
 slBox* CloseMenuBox;
 slSlider* VolumeSlider = NULL;
+slSlider* KeySlider = NULL;
 char VolText[20] = "Master Volume:  20%";
 
 void slxSetRelBoxDims (slBox* box, slBox* container,
@@ -72,16 +73,26 @@ void create_volslider ()
 
 void set_keyslider (slSlider* sld)
 {
-  slSetSliderValue(sld, slRound(sld->curvalue*12));
+  slSetSliderValue(sld, slRound(sld->curvalue));
+  SetKeyNote(slRound(sld->curvalue) + 60);
+  sld->mark->texref = slRenderText(GetNoteName(GetKeyNote(), 0));
 }
 
 void create_keyslider ()
 {
-  slBox* behind = slCreateBox(slRenderText(GetNoteName(GetKeyNote(), 0)));
-  slBox* mark = slCreateBox();
+  slBox* behind = slCreateBox(slRenderText("Key"));
+  slBox* mark = slCreateBox(slRenderText(GetNoteName(GetKeyNote(), 0)));
   slxSetRelBoxDims(behind, BackgroundBox, 0.2, 0.3, 0.6, 0.1);
   behind->bordercolor = WHITE;
   behind->backcolor = {64, 64, 64, 255};
+  slxSetRelBoxDims(mark, behind, 0.0, 0.0, 1./12., 1.0);
+  mark->bordercolor = WHITE;
+  mark->backcolor = GetNoteColor(0);
+  KeySlider = slCreateSlider(behind, mark);
+  KeySlider->minvalue = -5.0;
+  KeySlider->maxvalue = 6.0;
+  slSetSliderValue(KeySlider, (slScalar)(GetKeyNote() - 60));
+  KeySlider->onchange = set_keyslider;
 }
 
 void EnableOptionsMenu (bool visible)
@@ -115,6 +126,8 @@ void EnableOptionsMenu (bool visible)
       CloseMenuBox->visible = true;
       VolumeSlider->behind->visible = true;
       VolumeSlider->mark->visible = true;
+      KeySlider->behind->visible = true;
+      KeySlider->mark->visible = true;
     }
   }
   else if (already_created)
@@ -123,5 +136,7 @@ void EnableOptionsMenu (bool visible)
     CloseMenuBox->visible = false;
     VolumeSlider->behind->visible = false;
     VolumeSlider->mark->visible = false;
+    KeySlider->behind->visible = false;
+    KeySlider->mark->visible = false;
   }
 }
