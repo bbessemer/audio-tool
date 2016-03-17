@@ -1,6 +1,5 @@
 /** -------- **/
 
-#include <stdlib.h>
 #include "musicmap.h"
 #include "chords.h"
 #include "samples.h"
@@ -26,7 +25,7 @@ slScalar MasterVolume = 0.2;
 
 char* GetNoteName (int midival, int accmode)
 {
-  if (midival > 11) midival = NOTE(midival);
+  midival = NOTE(midival);
   switch (midival)
   {
     case 0: return "C";
@@ -36,45 +35,13 @@ char* GetNoteName (int midival, int accmode)
     case 7: return "G";
     case 9: return "A";
     case 11: return "B";
-    default:;
+    case 1: return "C#";
+    case 3: return "Eb";
+    case 6: return "F#";
+    case 8: return "Ab";
+    case 10: return "Bb";
+    default: return "";
   }
-  if (accmode == USE_FLATS)
-  {
-    switch (midival)
-    {
-      case 1: return "D♭";
-      case 3: return "E♭";
-      case 6: return "G♭";
-      case 8: return "A♭";
-      case 10: return "B♭";
-      default:;
-    }
-  }
-  else if (accmode == USE_SHARPS)
-  {
-    switch (midival)
-    {
-      case 1: return "C♯";
-      case 3: return "D♯";
-      case 6: return "F♯";
-      case 8: return "G♯";
-      case 10: return "A♯";
-      default:;
-    }
-  }
-  else
-  {
-    switch (midival)
-    {
-      case 1: return "C♯";
-      case 3: return "E♭";
-      case 6: return "F♯";
-      case 8: return "A♭";
-      case 10: return "B♭";
-      default:;
-    }
-  }
-  return "";
 }
 
 void SetMasterVolume (slScalar to)

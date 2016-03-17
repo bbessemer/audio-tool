@@ -25,8 +25,8 @@ void LoadInstrument (char* name, char* from, slBU refnote)
 }
 void LoadAllInstruments ()
 {
-	LoadInstrument("Piano", "samples/piano.swag", 61);
-	LoadInstrument("Strings", "samples/strings.swag", 69);
+	LoadInstrument("Piano", "samples/piano.swag", 69); // reference pitch is A4
+	LoadInstrument("Strings", "samples/strings.swag", 72); // reference pitch is C5
 }
 char* GetInstrumentName (slBU inst_id)
 {

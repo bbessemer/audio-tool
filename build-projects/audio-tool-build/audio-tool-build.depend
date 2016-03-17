@@ -1,17 +1,11 @@
 # depslib dependency file v1.0
-1458227456 source:c:\collaboratives\audio-tool\main.cpp
+1448535306 source:c:\collaboratives\audio-tool\main.cpp
 	<slice.h>
-	<sliceopts.h>
 	"musicmap.h"
-	"chords.h"
-	"samples.h"
-	"interface.h"
-	"sliceexts.h"
-	"note-volume.h"
 
 1453675971 h"
 
-1458221775 c:\collaboratives\audio-tool\musicmap.h
+1448535306 c:\collaboratives\audio-tool\musicmap.h
 	<slice.h>
 
 1452891204 
@@ -41,31 +35,36 @@
 1452609740 c:\users\bmb06\code\tsa\audio-tool\chords.h
 	"musicmap.h"
 
-1448829404 source:d:\code\tsa\audio-tool\main.cpp
+1458223322 source:d:\code\tsa\audio-tool\main.cpp
 	<slice.h>
+	<sliceopts.h>
 	"musicmap.h"
+	"chords.h"
 	"samples.h"
+	"interface.h"
+	"sliceexts.h"
 
-1452609128 d:\code\tsa\audio-tool\musicmap.h
+1458223322 d:\code\tsa\audio-tool\musicmap.h
 	<slice.h>
 
-1448830643 d:\code\tsa\audio-tool\samples.h
+1458223322 d:\code\tsa\audio-tool\samples.h
 
-1448831319 source:d:\code\tsa\audio-tool\samples.cpp
+1458226469 source:d:\code\tsa\audio-tool\samples.cpp
 	<slice.h>
 	"samples.h"
+	"musicmap.h"
 
-1452891204 source:d:\code\tsa\audio-tool\chords.cpp
+1458223322 source:d:\code\tsa\audio-tool\chords.cpp
+	<string.h>
 	"chords.h"
 	"util.h"
 
-1453675971 d:\code\tsa\audio-tool\chords.h
+1458223322 d:\code\tsa\audio-tool\chords.h
 	"musicmap.h"
 
-1452611528 d:\code\tsa\audio-tool\util.h
+1452615128 d:\code\tsa\audio-tool\util.h
 
-1454617522 source:d:\code\tsa\audio-tool\musicmap.cpp
-	<stdlib.h>
+1458234855 source:d:\code\tsa\audio-tool\musicmap.cpp
 	"musicmap.h"
 	"chords.h"
 	"samples.h"
@@ -578,52 +577,20 @@
 
 1457825940 d:\code\audio-tool\interface.h
 
-1458187285 source:c:\collaboratives\audio-tool\chords.cpp
-	<string.h>
-	"chords.h"
-	"util.h"
-
-1458187285 c:\collaboratives\audio-tool\chords.h
-	"musicmap.h"
-
-1458187286 c:\collaboratives\audio-tool\util.h
-
-1458187285 source:c:\collaboratives\audio-tool\fpscounter.cpp
+1458223322 source:d:\code\tsa\audio-tool\fpscounter.cpp
 	<slice.h>
 	"sliceexts.h"
 
-1458187286 c:\collaboratives\audio-tool\sliceexts.h
+1458223322 d:\code\tsa\audio-tool\sliceexts.h
 
-1458187285 source:c:\collaboratives\audio-tool\interface.cpp
+1458234973 source:d:\code\tsa\audio-tool\interface.cpp
 	"musicmap.h"
 	"interface.h"
 	<sliceopts.h>
 
-1458187285 c:\collaboratives\audio-tool\interface.h
+1458223322 d:\code\tsa\audio-tool\interface.h
 
-1458187285 c:\collaboratives\audio-tool\samples.h
-
-1458231930 source:c:\collaboratives\audio-tool\musicmap.cpp
-	<stdlib.h>
-	"musicmap.h"
-	"chords.h"
-	"samples.h"
-
-1458187285 source:c:\collaboratives\audio-tool\samples.cpp
-	<slice.h>
-	"samples.h"
-	"musicmap.h"
-
-1458187286 source:c:\collaboratives\audio-tool\sliceexts.cpp
+1458223322 source:d:\code\tsa\audio-tool\sliceexts.cpp
 	<slice.h>
 	"sliceexts.h"
-
-1458224181 source:c:\collaboratives\audio-tool\save.cpp
-	"stdio.h"
-	"musicmap.h"
-
-1458227456 c:\collaboratives\audio-tool\note-volume.h
-
-1458232185 source:c:\collaboratives\audio-tool\note-volume.cpp
-	"musicmap.h"
 
