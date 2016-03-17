@@ -64,10 +64,7 @@ struct Note
 	slScalar start,duration;
 	slBox* box;
 	slBU instrument;
-	// TO DO
-	/*
 	slScalar volume;
-	*/
 };
 
 Note* SpawnNote ();
