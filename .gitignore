@@ -4,3 +4,4 @@ keybinds.txt
 settings.txt
 *.layout
 *.cbp
+*.depend
