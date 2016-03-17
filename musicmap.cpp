@@ -119,9 +119,9 @@ void DrawGrid (SDL_Window* window = NULL, SDL_Renderer* renderer = NULL)
 	for (slBU beat = 0; beat <= beatcount; beat++)
 	{
 		slScalar x = roll_left + (beat * BEAT_WIDTH);
-		if (beat % BEATS_PER_MINIMEASURE) slSetDrawColor(GRID_COLOR);
-		else if (beat % BEATS_PER_MEASURE) slSetDrawColor(MINIMEASURE_SEPARATOR_COLOR);
-		else slSetDrawColor(MEASURE_SEPARATOR_COLOR);
+		if (beat % BEATS_PER_MINIMEASURE) slSetDrawColor(MINIMEASURE_BAR_COLOR);
+		else if (beat % BEATS_PER_MEASURE) slSetDrawColor(MEASURE_BAR_COLOR);
+		else slSetDrawColor(GRID_COLOR);
 		slDrawScreenLine(x,ROLL_TOP,x,roll_bottom);
 	}
 	slSetDrawColor(GRID_COLOR);
