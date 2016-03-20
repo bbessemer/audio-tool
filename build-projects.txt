@@ -1,0 +1,4 @@
+build-projects is no longer tracked by the repository.
+For the project files, which you can edit (without messing with everyone else's) please look here:
+http://glassblade-games.com/tsa/easyaudio/build-projects.zip
+Extract the folder inside the archive (build-projects) into the root directory of your local clone of the repository.
