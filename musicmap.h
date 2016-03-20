@@ -44,6 +44,7 @@
 #define GRID_COLOR {0,0,0,255}
 #define MEASURE_BAR_COLOR {0,0,191,255}
 #define MINIMEASURE_BAR_COLOR {159,159,255,255}
+#define MARKER_COLOR {255,0,0,255}
 
 #define BLACK   {0,   0,   0,   255}
 #define WHITE   {255, 255, 255, 255}
@@ -97,3 +98,5 @@ void SetMasterVolume (slScalar);
 char* GetNoteName (int, int);
 int GetKeyNote ();
 void SetKeyNote (int);
+void CreateNoteLengthBind (char* name, Uint32 dflt_key, slScalar length);
+slScalar SongProgress ();

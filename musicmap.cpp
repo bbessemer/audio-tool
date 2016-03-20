@@ -109,6 +109,33 @@ void NoteLengthKeyBind (slKeyBind* kb)
 {
   NoteLength = GetNoteLengthByKey(kb->key);
 }
+struct NoteLengthBind
+{
+    slKeyBind* keybind;
+    slScalar length;
+};
+NoteLengthBind** NoteLengthBinds = NULL;
+slBU NoteLengthBindCount = 0;
+void OnNoteLengthBindPress (slKeyBind* keybind)
+{
+    for (slBU cur = 0; cur < NoteLengthBindCount; cur++)
+    {
+        NoteLengthBind* item = *(NoteLengthBinds + cur);
+        if (item->keybind == keybind)
+        {
+            NoteLength = item->length;
+            return;
+        };
+    };
+};
+void CreateNoteLengthBind (char* name, Uint32 dflt_key, slScalar length)
+{
+    NoteLengthBind* out = malloc(sizeof(NoteLengthBind));
+    out->keybind = slGetKeyBind(name,dflt_key);
+    out->keybind->onpress = OnNoteLengthBindPress;
+    out->length = length;
+    slAddItemToList(&NoteLengthBinds,&NoteLengthBindCount,out);
+};
 
 void DrawGrid (SDL_Window* window = NULL, SDL_Renderer* renderer = NULL)
 {
@@ -130,7 +157,10 @@ void DrawGrid (SDL_Window* window = NULL, SDL_Renderer* renderer = NULL)
 		slScalar y = ROLL_TOP + (chan * CHANNEL_HEIGHT);
 		slDrawScreenLine(roll_left,y,roll_right,y);
 	}
-}
+	slSetDrawColor(MARKER_COLOR);
+	slScalar marker_x = roll_left + SongPosition * BEAT_WIDTH;
+	slDrawScreenLine(marker_x,ROLL_TOP,marker_x,roll_bottom);
+};
 
 void DrawBackground (SDL_Window* window, SDL_Renderer* renderer)
 {
@@ -174,6 +204,7 @@ Note* SpawnHiddenNote ()
 {
 	Note* out = (Note *) malloc(sizeof(Note));
 	out->box = NULL;
+	out->volume = 1;
 	slAddItemToList((void ***)&Notes, (slBU *)&NoteCount, (void *)out);
 	return out;
 }
@@ -358,3 +389,8 @@ float GetMixerSample (slScalar persample)
 	SongPosition += persample * (BeatsPerMinute / 60) * (BEATS_PER_MINIMEASURE);
 	return sample;
 }
+
+slScalar SongProgress ()
+{
+    return SongPosition / (MeasureCount * BEATS_PER_MEASURE);
+};

@@ -106,6 +106,17 @@ int main ()
 	slBox* ControlsHintBox = slCreateBox(slRenderText("Press C to toggle controls info.",{0,0,0,255}));
 	slSetBoxDims(ControlsHintBox,0.01,0,0.2,0.05);
 	ControlsHintBox->z = 18;
+	slBox* ProgressSliderBack = slCreateBox();
+	slBox* ProgressSliderMark = slCreateBox();
+	slSlider* ProgressSlider = slCreateSlider(ProgressSliderBack,ProgressSliderMark,false,true,false);
+	ProgressSliderBack->backcolor = {159,159,159,255};
+	ProgressSliderMark->backcolor = {63,63,63,255};
+	ProgressSlider->minvalue = 0;
+	ProgressSlider->maxvalue = 1;
+	slSetBoxDims(ProgressSliderBack,0,0.97,1,0.03);
+	slSetBoxDims(ProgressSliderMark,0,0.97,0,0.03);
+	ProgressSliderBack->z = 210;
+	ProgressSliderMark->z = 209;
 
 	// Initialization
 	slSetCustomDrawStage_Back(DrawBackground);
@@ -123,12 +134,12 @@ int main ()
 	dragbind->onrelease = ReleaseNote;
 	slGetKeyBind("Toggle Looping",SDLK_l)->onpress = ToggleLooping;
 	slGetKeyBind("Toggle Playing",SDLK_SPACE)->onpress = TogglePlaying;
-	slGetKeyBind("Whole Note", SDLK_a)->onpress = NoteLengthKeyBind;
-	slGetKeyBind("Half Note", SDLK_s)->onpress = NoteLengthKeyBind;
-	slGetKeyBind("Quarter Note", SDLK_d)->onpress = NoteLengthKeyBind;
-	slGetKeyBind("Eighth Note", SDLK_f)->onpress = NoteLengthKeyBind;
-	slGetKeyBind("Sixteenth Note", SDLK_g)->onpress = NoteLengthKeyBind;
-	slGetKeyBind("32nd Note", SDLK_h)->onpress = NoteLengthKeyBind;
+	CreateNoteLengthBind("Whole Note",SDLK_a,8);
+	CreateNoteLengthBind("Half Note",SDLK_s,4);
+	CreateNoteLengthBind("Quarter Note",SDLK_d,2);
+	CreateNoteLengthBind("Eighth Note",SDLK_f,1);
+	CreateNoteLengthBind("Sixteenth Note",SDLK_g,0.5);
+	CreateNoteLengthBind("Thirty-Second Note",SDLK_h,0.25);
 	slGetKeyBind("I Chord", SDLK_1)->onpress = EditChordKeyBind;
 	slGetKeyBind("II Chord", SDLK_2)->onpress = EditChordKeyBind;
 	slGetKeyBind("III Chord", SDLK_3)->onpress = EditChordKeyBind;
@@ -151,6 +162,7 @@ int main ()
 		UpdateGrabbedNote();
 		slxRunHooks();
 		VolAdjStep();
+		slSetSliderValue(ProgressSlider,SongProgress());
 		slCycle();
 	}
 

@@ -40,6 +40,7 @@ Chord* SpawnChord ()
 	out->box->bordercolor = BLACK;
 	out->box->backcolor = GREY;
 	out->box->onclick = SelectChord;
+	out->box->z = 240;
 	out->num_notes = 0;
 	out->__notes = NULL;
 	out->selected = true;
