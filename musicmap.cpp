@@ -394,3 +394,8 @@ slScalar SongProgress ()
 {
     return SongPosition / (MeasureCount * BEATS_PER_MEASURE);
 };
+
+void SetSongProgress (slScalar to)
+{
+	SongPosition = to * (MeasureCount * BEATS_PER_MEASURE);
+};

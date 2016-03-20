@@ -29,8 +29,8 @@ slBox* LoopToggleButton;
 #define NOLOOP_BUTTON_IMGPATH "noloop-button.png"
 void TogglePlaying ()
 {
-	if (!LoopSong && ReachedEnd) SetSongPosition(0);
-	else ReachedEnd = false;
+	if (ReachedEnd) SetSongPosition(0);
+	ReachedEnd = false;
 	SongPlaying = !SongPlaying;
 	PlayToggleButton->texref = slLoadTexture(SongPlaying ? PAUSE_BUTTON_IMGPATH : PLAY_BUTTON_IMGPATH);
 }
@@ -84,6 +84,23 @@ void OnControlsPress ()
     ControlsInfoBox->visible = !ControlsInfoBox->visible;
 }
 
+void OnProgressAdjust (slSlider* slider)
+{
+	SetSongProgress(slider->curvalue);
+};
+
+extern float BeatsPerMinute;
+void ChangeTempo (slSlider* slider)
+{
+	slBS tempo = slRound(slider->curvalue);
+	slSetSliderValue(slider,tempo);
+	BeatsPerMinute = tempo;
+	char* bpm_str;
+	asprintf(&bpm_str,"%d",(int)tempo);
+	slider->mark->texref = slRenderText(bpm_str);
+	free(bpm_str);
+};
+
 int main ()
 {
 	slInit("EasyAudio", "app-icon.png");
@@ -117,6 +134,24 @@ int main ()
 	slSetBoxDims(ProgressSliderMark,0,0.97,0,0.03);
 	ProgressSliderBack->z = 210;
 	ProgressSliderMark->z = 209;
+	ProgressSlider->onchange = OnProgressAdjust;
+	slBox* TempoSliderBack = slCreateBox();
+	slBox* TempoSliderMark = slCreateBox();
+	slSetBoxDims(TempoSliderBack,(0.42 - 0.35) / 2,0.87,0.35,0.06);
+	slSetBoxDims(TempoSliderMark,0,0.87,0.05,0.06);
+	slSlider* TempoSlider = slCreateSlider(TempoSliderBack,TempoSliderMark);
+	TempoSliderBack->z = 210;
+	TempoSliderMark->z = 209;
+	TempoSliderBack->backcolor = {191,191,191,255};
+	TempoSliderMark->backcolor = {95,95,95,255};
+	TempoSlider->onchange = ChangeTempo;
+	TempoSlider->minvalue = 40;
+	TempoSlider->maxvalue = 220;
+	TempoSlider->curvalue = 120.1;
+	ChangeTempo(TempoSlider); // Initialize text on slider mark.
+	slBox* TempoInfoBox = slCreateBox(slRenderText("TEMPO",BLACK));
+	TempoInfoBox->backcolor = TempoSliderBack->backcolor;
+	slSetBoxDims(TempoInfoBox,TempoSliderBack->x,0.84,0.07,0.03);
 
 	// Initialization
 	slSetCustomDrawStage_Back(DrawBackground);

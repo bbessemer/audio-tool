@@ -100,3 +100,4 @@ int GetKeyNote ();
 void SetKeyNote (int);
 void CreateNoteLengthBind (char* name, Uint32 dflt_key, slScalar length);
 slScalar SongProgress ();
+void SetSongProgress (slScalar to);
