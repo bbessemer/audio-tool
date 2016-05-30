@@ -162,7 +162,7 @@ int main ()
 
 	// Keybindings
   int delete_key, lctrl_key, rctrl_key;
-  if (SDL_GetPlatform() == "Mac OS X")
+  if (!strcmp(SDL_GetPlatform(), "Mac OS X"))
   {
     delete_key = SDLK_BACKSPACE;
     lctrl_key = SDLK_LGUI;
