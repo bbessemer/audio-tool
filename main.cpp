@@ -161,6 +161,20 @@ int main ()
 	VolAdjInit();
 
 	// Keybindings
+  int delete_key, lctrl_key, rctrl_key;
+  if (SDL_GetPlatform() == "Mac OS X")
+  {
+    delete_key = SDLK_BACKSPACE;
+    lctrl_key = SDLK_LGUI;
+    rctrl_key = SDLK_RGUI;
+  }
+  else
+  {
+    delete_key = SDLK_DELETE;
+    lctrl_key = SDLK_LCTRL;
+    rctrl_key = SDLK_RCTRL;
+  }
+  
 	slGetKeyBind("Show/Hide Controls Info",SDLK_c)->onpress = OnControlsPress;
 	slGetKeyBind("Append Measure to End",SDLK_m)->onpress = InsertMeasureAtEnd;
 	slGetKeyBind("Chop Measure from End",SDLK_n)->onpress = RemoveMeasureFromEnd;
