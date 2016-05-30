@@ -19,4 +19,7 @@ void slxDestroyFpsCounter ();
 void slxCountFps ();
 slScalar slxGetFps ();
 
+// Dials
+typedef slSlider slxDial;
+
 #endif

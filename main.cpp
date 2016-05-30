@@ -103,8 +103,8 @@ void ChangeTempo (slSlider* slider)
 
 int main ()
 {
-	slInit("EasyAudio", "app-icon.png");
-	opInit(EnableOptionsMenu);
+	slInit("EasyAudio");
+	opInit();
 
 	// UI
 	PlayToggleButton = slCreateBox(slLoadTexture(PLAY_BUTTON_IMGPATH));
