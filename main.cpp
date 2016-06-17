@@ -104,7 +104,9 @@ void ChangeTempo (slSlider* slider)
 int main ()
 {
 	slInit("EasyAudio");
+	slSetIcon("app-icon.png");
 	opInit();
+	opSetCustomEscapeCallback(EnableOptionsMenu);
 
 	// UI
 	PlayToggleButton = slCreateBox(slLoadTexture(PLAY_BUTTON_IMGPATH));
@@ -174,7 +176,7 @@ int main ()
     lctrl_key = SDLK_LCTRL;
     rctrl_key = SDLK_RCTRL;
   }
-  
+
 	slGetKeyBind("Show/Hide Controls Info",SDLK_c)->onpress = OnControlsPress;
 	slGetKeyBind("Append Measure to End",SDLK_m)->onpress = InsertMeasureAtEnd;
 	slGetKeyBind("Chop Measure from End",SDLK_n)->onpress = RemoveMeasureFromEnd;
