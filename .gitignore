@@ -6,3 +6,4 @@ settings.txt
 *.cbp
 *.depend
 *.cscope_file_list
+**/.DS_Store
