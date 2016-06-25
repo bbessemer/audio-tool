@@ -106,24 +106,24 @@ int main ()
 	slInit("EasyAudio");
 	slSetIcon("app-icon.png");
 	opInit();
-	opSetCustomEscapeCallback(EnableOptionsMenu);
+	//opSetCustomEscapeCallback(EnableOptionsMenu);
 
 	// UI
 	PlayToggleButton = slCreateBox(slLoadTexture(PLAY_BUTTON_IMGPATH));
-	slSetBoxDims(PlayToggleButton,0.42,0.87,0.06,0.06);
+	slSetBoxDims(PlayToggleButton,0.42,0.87,0.06,0.06, 17);
 	PlayToggleButton->z = 22;
 	PlayToggleButton->onclick = TogglePlaying;
 	LoopToggleButton = slCreateBox(slLoadTexture(LOOP_BUTTON_IMGPATH));
-	slSetBoxDims(LoopToggleButton,0.52,0.87,0.06,0.06);
+	slSetBoxDims(LoopToggleButton,0.52,0.87,0.06,0.06, 17);
 	LoopToggleButton->z = 22;
 	LoopToggleButton->onclick = ToggleLooping;
 	ControlsInfoBox = slCreateBox(slLoadTexture("interface/help-card.png"));
-	slSetBoxDims(ControlsInfoBox,0.05,0.05,0.9,0.9);
+	slSetBoxDims(ControlsInfoBox,0.05,0.05,0.9,0.9, 1);
 	ControlsInfoBox->z = 18;
 	ControlsInfoBox->texbordercolor = {0,0,0,255};
 	ControlsInfoBox->onclick = slDoNothing;
 	slBox* ControlsHintBox = slCreateBox(slRenderText("Press C to toggle controls info.",{0,0,0,255}));
-	slSetBoxDims(ControlsHintBox,0.01,0,0.2,0.05);
+	slSetBoxDims(ControlsHintBox,0.01,0,0.2,0.05, 1);
 	ControlsHintBox->z = 18;
 	slBox* ProgressSliderBack = slCreateBox();
 	slBox* ProgressSliderMark = slCreateBox();
@@ -132,15 +132,15 @@ int main ()
 	ProgressSliderMark->backcolor = {63,63,63,255};
 	ProgressSlider->minvalue = 0;
 	ProgressSlider->maxvalue = 1;
-	slSetBoxDims(ProgressSliderBack,0,0.97,1,0.03);
-	slSetBoxDims(ProgressSliderMark,0,0.97,0,0.03);
+	slSetBoxDims(ProgressSliderBack,0,0.97,1,0.03, 16);
+	slSetBoxDims(ProgressSliderMark,0,0.97,0,0.03, 15);
 	ProgressSliderBack->z = 210;
 	ProgressSliderMark->z = 209;
 	ProgressSlider->onchange = OnProgressAdjust;
 	slBox* TempoSliderBack = slCreateBox();
 	slBox* TempoSliderMark = slCreateBox();
-	slSetBoxDims(TempoSliderBack,(0.42 - 0.35) / 2,0.87,0.35,0.06);
-	slSetBoxDims(TempoSliderMark,0,0.87,0.05,0.06);
+	slSetBoxDims(TempoSliderBack,(0.42 - 0.35) / 2,0.87,0.35,0.06, 16);
+	slSetBoxDims(TempoSliderMark,0,0.87,0.05,0.06, 15);
 	slSlider* TempoSlider = slCreateSlider(TempoSliderBack,TempoSliderMark);
 	TempoSliderBack->z = 210;
 	TempoSliderMark->z = 209;
@@ -153,7 +153,7 @@ int main ()
 	ChangeTempo(TempoSlider); // Initialize text on slider mark.
 	slBox* TempoInfoBox = slCreateBox(slRenderText("TEMPO",BLACK));
 	TempoInfoBox->backcolor = TempoSliderBack->backcolor;
-	slSetBoxDims(TempoInfoBox,TempoSliderBack->x,0.84,0.07,0.03);
+	slSetBoxDims(TempoInfoBox,TempoSliderBack->x,0.84,0.07,0.03, 14);
 
 	// Initialization
 	slSetCustomDrawStage_Back(DrawBackground);
@@ -203,17 +203,20 @@ int main ()
 	// Loading
 	LoadAllInstruments();
 	slxEnableFpsCounter(SDLK_F3);
-    InsertMeasureAtEnd();
+  InsertMeasureAtEnd();
 
 	// Main Loop
 	while (!slGetReqt())
 	{
-		RepositionNotes();
-		RepositionChords();
-		UpdateGrabbedNote();
-		slxRunHooks();
-		VolAdjStep();
-		slSetSliderValue(ProgressSlider,SongProgress());
+	  if (!opGetVisi())
+    {
+      RepositionNotes();
+      RepositionChords();
+      UpdateGrabbedNote();
+      VolAdjStep();
+      slSetSliderValue(ProgressSlider,SongProgress());
+    }
+    slxRunHooks();
 		slCycle();
 	}
 

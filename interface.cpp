@@ -18,7 +18,7 @@ void slxSetRelBoxDims (slBox* box, slBox* container,
   h *= container->h;
   x += container->x;
   y += container->y;
-  slSetBoxDims(box, x, y, w, h);
+  slSetBoxDims(box, x, y, w, h, container->z - 1);
   box->z = container->z - 1;
 }
 
@@ -102,7 +102,7 @@ void EnableOptionsMenu (bool visible)
     if (!already_created)
     {
       BackgroundBox = slCreateBox();
-      slSetBoxDims(BackgroundBox, 0.1, 0.1, 0.8, 0.8);
+      slSetBoxDims(BackgroundBox, 0.1, 0.1, 0.8, 0.8, 16);
       BackgroundBox->backcolor = {64, 64, 64, 220};
       BackgroundBox->z = 2;
 
