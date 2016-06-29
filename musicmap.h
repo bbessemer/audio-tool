@@ -70,6 +70,7 @@ struct Note
 	slBU instrument;
 	slScalar volume;
   slBU type;
+  slBox* instrument_box;
 };
 
 Note* SpawnNote ();

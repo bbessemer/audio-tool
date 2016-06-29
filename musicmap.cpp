@@ -197,6 +197,9 @@ Note* SpawnNote ()
 	out->instrument = MelodyInstrument;
 	out->volume = 1;
   out->type = MELODY_NOTE;
+  out->instrument_box = slCreateBox(GetInstrumentIcon(out->instrument));
+  slSetBoxDims(out->instrument_box,0.7,0.1,0.28,0.8,239);
+  slRelBoxDims(out->instrument_box,out->box);
 	slAddItemToList((void ***)&Notes, (slBU *)&NoteCount, (void *)out);
 	return out;
 }

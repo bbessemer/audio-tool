@@ -4,7 +4,7 @@
 
 Instrument* Instruments = NULL;
 slBU InstrumentCount = 0;
-void LoadInstrument (char* name, char* from, slBU refnote)
+void LoadInstrument (char* name, char* from, slBU refnote, char* iconpath)
 {
 	slSoundSource* src = slLoadSoundSource(from);
 	if (src)
@@ -21,15 +21,16 @@ void LoadInstrument (char* name, char* from, slBU refnote)
 		inst->sound = container;
 		inst->refnote = refnote;
 		inst->refpitch = GetPitch(refnote);
+		inst->iconpath = iconpath;
 	}
 }
 void LoadAllInstruments ()
 {
-	LoadInstrument("Piano", "samples/piano.swag", 69); // reference pitch is A4
-	LoadInstrument("Strings", "samples/strings.swag", 72); // reference pitch is C5
-  LoadInstrument("Flute", "samples/flute.swag", 69);
-  LoadInstrument("Trumpet", "samples/trumpet.swag", 69);
-  LoadInstrument("Solo Violin", "samples/violin.swag", 69);
+	LoadInstrument("Piano", "samples/piano.swag", 69, "icons/piano.png"); // reference pitch is A4
+	LoadInstrument("Strings", "samples/strings.swag", 72, "icons/strings.png"); // reference pitch is C5
+  LoadInstrument("Flute", "samples/flute.swag", 69, "icons/flute.png");
+  LoadInstrument("Trumpet", "samples/trumpet.swag", 69, "icons/trumpet.png");
+  LoadInstrument("Solo Violin", "samples/violin.swag", 69, "icons/violin.png");
 }
 char* GetInstrumentName (slBU inst_id)
 {
@@ -65,3 +66,12 @@ float GetInstrumentSample (slBU inst_id, float freq, float offset)
 		}
 	}
 }
+slTexture* GetInstrumentIcon (slBU inst_id)
+{
+	if (inst_id >= InstrumentCount) return NULL;
+	else
+	{
+		Instrument* inst = Instruments + inst_id;
+		return slLoadTexture(inst->iconpath);
+	};
+};

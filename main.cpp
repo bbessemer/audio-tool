@@ -7,6 +7,7 @@
 #include "interface.h"
 #include "sliceexts.h"
 #include "note-volume.h"
+#include "instrument-panel.h"
 
 void InsertMeasureAtEnd ()
 {
@@ -199,6 +200,8 @@ int main ()
 	slGetKeyBind("VI Chord", SDLK_6)->onpress = EditChordKeyBind;
 	slGetKeyBind("VII Chord", SDLK_7)->onpress = EditChordKeyBind;
 	slGetKeyBind("Remove Chord", SDLK_DELETE)->onpress = RemoveChordKeyBind;
+
+	///CreateInstrumentPanel();
 
 	// Loading
 	LoadAllInstruments();
