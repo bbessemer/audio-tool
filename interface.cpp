@@ -18,7 +18,7 @@ void slxSetRelBoxDims (slBox* box, slBox* container,
   h *= container->h;
   x += container->x;
   y += container->y;
-  slSetBoxDims(box, x, y, w, h);
+  slSetBoxDims(box, x, y, w, h, (container->z > 0 ? container->z - 1 : 0));
   box->z = container->z - 1;
 }
 

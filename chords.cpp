@@ -191,8 +191,8 @@ void RecalculateChordNotes (Chord* chord)
     new_note->start = chord->start;
     new_note->duration = chord->duration;
     new_note->accidental = 0;
-    if (!i) new_note->instrument = BassInstrument;
-    else new_note->instrument = HarmonyInstrument;
+    new_note->instrument = HarmonyInstrument;
+    new_note->type = HARMONY_NOTE;
     RecalculateNotePitch(new_note, chord->scale);
     chord->__notes[i] = new_note;
   }

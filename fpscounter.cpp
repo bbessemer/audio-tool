@@ -59,7 +59,7 @@ void slxEnableFpsCounter (int toggle_key = 0, bool sticky = true)
   {
     fps_counter = slCreateBox();
     fps_counter->bordercolor = {0, 0, 0, 255};
-    slSetBoxDims(fps_counter, 0.8, 0, 0.2, 0.07);
+    slSetBoxDims(fps_counter, 0.8, 0, 0.2, 0.07, 0);
   }
   else
   {

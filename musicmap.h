@@ -57,6 +57,9 @@
 #define MAGENTA {255, 0,   255, 255}
 #define GREY    {127, 127, 127, 255}
 
+#define MELODY_NOTE 1
+#define HARMONY_NOTE 2
+
 struct Note
 {
 	slScalar pitch;
@@ -66,6 +69,7 @@ struct Note
 	slBox* box;
 	slBU instrument;
 	slScalar volume;
+  slBU type;
 };
 
 Note* SpawnNote ();

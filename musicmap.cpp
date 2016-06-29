@@ -196,6 +196,7 @@ Note* SpawnNote ()
 	out->box->z = 240;
 	out->instrument = MelodyInstrument;
 	out->volume = 1;
+  out->type = MELODY_NOTE;
 	slAddItemToList((void ***)&Notes, (slBU *)&NoteCount, (void *)out);
 	return out;
 }

@@ -27,6 +27,9 @@ void LoadAllInstruments ()
 {
 	LoadInstrument("Piano", "samples/piano.swag", 69); // reference pitch is A4
 	LoadInstrument("Strings", "samples/strings.swag", 72); // reference pitch is C5
+  LoadInstrument("Flute", "samples/flute.swag", 69);
+  LoadInstrument("Trumpet", "samples/trumpet.swag", 69);
+  LoadInstrument("Solo Violin", "samples/violin.swag", 69);
 }
 char* GetInstrumentName (slBU inst_id)
 {
