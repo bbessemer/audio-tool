@@ -1,4 +1,4 @@
-#include "stdio.h"
+#include <stdio.h>
 #include "musicmap.h"
 
 extern Note** Notes;
@@ -16,22 +16,20 @@ void SaveModuleFile (char* path)
     for (slBU cur = 0; cur < NoteCount; cur++)
     {
         Note* note = *(Notes + cur);
-        fprintf(
-            file,
-            "%f\n%d\n%d\n%f\n%f\n%u\n",
-            (float)note->pitch,
-            (int)note->channel,
-            (int)note->accidental,
-            (float)note->start,
-            (float)note->duration,
-            (unsigned int)note->instrument
-        );
+        fprintf(file,
+                "%f\n%d\n%d\n%f\n%f\n%u\n",
+                (float)note->pitch,
+                (int)note->channel,
+                (int)note->accidental,
+                (float)note->start,
+                (float)note->duration,
+                (unsigned int)note->instrument);
     };
 };
 void LoadModuleFile (char* from)
 {
-	FILE* file = fopen(from,"r");
-	if (!file)
+    FILE* file = fopen(from,"r");
+    if (!file)
     {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,"File I/O Error","Could not open the file for reading.",NULL);
         return;
@@ -80,9 +78,9 @@ void LoadModuleFile (char* from)
 
         continue;
 
-        FAIL_NUMSTR:
+FAIL_NUMSTR:
         free(numstr);
-        FAIL:
+FAIL:
         break;
     };
 };

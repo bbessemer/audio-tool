@@ -62,15 +62,15 @@
 
 struct Note
 {
-	slScalar pitch;
-	slBS channel;
-	slBS accidental;
-	slScalar start,duration;
-	slBox* box;
-	slBU instrument;
-	slScalar volume;
-  slBU type;
-  slBox* instrument_box;
+    slScalar pitch;
+    slBS channel;
+    slBS accidental;
+    slScalar start,duration;
+    slBox* box;
+    slBU instrument;
+    slScalar volume;
+    slBU type;
+    slBox* instrument_box;
 };
 
 Note* SpawnNote ();

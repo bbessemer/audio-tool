@@ -7,3 +7,5 @@ settings.txt
 *.depend
 *.cscope_file_list
 **/.DS_Store
+._*
+
